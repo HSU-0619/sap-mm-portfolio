@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>홍승욱 — SAP ABAP / Fiori Developer</title>
+<meta name="description" content="S/4HANA MM 모듈 Full-Custom 구현 포트폴리오. 자재마스터부터 송장검증, FI 전표 연계까지.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10243E;         /* 딥 네이비 (본문 헤딩) */
+    --body:#3A4A5E;        /* 본문 텍스트 */
+    --paper:#F7F9FC;       /* 배경 */
+    --card:#FFFFFF;
+    --accent:#0A6ED1;      /* SAP Fiori 블루 */
+    --led-g:#107E3E;       /* SAP semantic: positive */
+    --led-y:#E9730C;       /* SAP semantic: critical */
+    --led-r:#BB0000;       /* SAP semantic: negative */
+    --line:#D5DCE5;
+    --mono:'IBM Plex Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none!important} }
+  body{
+    font-family:'IBM Plex Sans KR', sans-serif;
+    background:var(--paper); color:var(--body);
+    line-height:1.7; font-size:16px;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:0 24px}
+  a{color:var(--accent);text-decoration:none}
+  a:focus-visible, button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+  /* ---------- 헤더 / 히어로 ---------- */
+  header{background:var(--ink);color:#fff;padding:64px 0 48px}
+  .eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.12em;color:#8FB8E8;text-transform:uppercase}
+  h1{font-size:clamp(28px,5vw,44px);font-weight:700;margin:10px 0 6px;color:#fff}
+  .tagline{font-size:clamp(15px,2.4vw,19px);color:#C7D6E8;font-weight:400;max-width:640px}
+  .tagline strong{color:#fff;font-weight:600}
+
+  /* 시그니처: 문서 흐름 다이어그램 */
+  .docflow{margin-top:40px;padding:24px 20px;background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.14);border-radius:10px}
+  .docflow-label{font-family:var(--mono);font-size:12px;color:#8FB8E8;margin-bottom:14px;letter-spacing:.08em}
+  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px}
+  .flow a{display:inline-flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:8px;
+    background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
+    transition:background .15s, transform .15s}
+  .flow a:hover{background:rgba(255,255,255,.16);transform:translateY(-2px)}
+  .flow .step{color:#fff;font-weight:600;font-size:14px;line-height:1.3}
+  .flow .tc{font-family:var(--mono);font-size:11px;color:#8FB8E8}
+  .flow .arrow{color:#5C7FA6;font-family:var(--mono);font-size:15px;padding:0 2px;user-select:none}
+  .flow-note{margin-top:12px;font-size:13px;color:#93A9C2}
+
+  /* ---------- 공통 섹션 ---------- */
+  section{padding:56px 0}
+  section + section{border-top:1px solid var(--line)}
+  h2{color:var(--ink);font-size:22px;font-weight:700;margin-bottom:6px}
+  .sub{font-size:14.5px;color:#6B7C90;margin-bottom:28px}
+  h2 .num{font-family:var(--mono);color:var(--accent);font-size:15px;margin-right:10px}
+
+  /* 개요 */
+  .overview{display:grid;grid-template-columns:1.4fr 1fr;gap:36px}
+  @media(max-width:760px){.overview{grid-template-columns:1fr}}
+  .overview p{margin-bottom:14px}
+  .overview b{color:var(--ink)}
+  .stack{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px}
+  .stack h3{font-size:14px;color:var(--ink);font-family:var(--mono);letter-spacing:.06em;margin-bottom:12px}
+  .stack dl{display:grid;grid-template-columns:88px 1fr;gap:8px 12px;font-size:13.5px}
+  .stack dt{color:var(--ink);font-weight:600}
+  .stack dd{color:var(--body)}
+
+  /* 프로그램 카드 */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  .pg{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;
+    transition:box-shadow .15s, transform .15s}
+  .pg:hover{box-shadow:0 6px 20px rgba(16,36,62,.08);transform:translateY(-2px)}
+  .pg-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:4px}
+  .pg h3{font-size:16.5px;color:var(--ink);font-weight:700}
+  .tcode{font-family:var(--mono);font-size:12px;color:var(--accent);background:#EAF3FC;
+    padding:2px 8px;border-radius:4px;white-space:nowrap}
+  .pg .kind{font-family:var(--mono);font-size:11.5px;color:#6B7C90;margin-bottom:12px}
+  .pg ul{list-style:none}
+  .pg li{position:relative;padding-left:18px;font-size:14px;margin-bottom:7px}
+  .pg li::before{content:'';position:absolute;left:2px;top:9px;width:8px;height:8px;border-radius:50%;
+    background:var(--led-g)} /* ALV 상태 LED 오마주 */
+  .pg li.hl::before{background:var(--led-y)}
+  .pg li b{color:var(--ink)}
+
+  /* 트러블슈팅 */
+  .ts{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--led-r);
+    border-radius:8px;padding:20px 22px;margin-bottom:14px}
+  .ts h3{font-size:15.5px;color:var(--ink);margin-bottom:10px}
+  .ts h3 .where{font-family:var(--mono);font-size:12px;color:#6B7C90;font-weight:400;margin-left:8px}
+  .ts .row{display:grid;grid-template-columns:56px 1fr;gap:6px 14px;font-size:14px}
+  .ts .k{font-family:var(--mono);font-size:12px;font-weight:600;padding-top:2px}
+  .ts .k.p{color:var(--led-r)} .ts .k.s{color:var(--accent)} .ts .k.l{color:var(--led-g)}
+  .ts code{font-family:var(--mono);font-size:12.5px;background:#F0F4F9;padding:1px 6px;border-radius:4px;color:var(--ink)}
+
+  /* 자격 / 푸터 */
+  .certs{display:flex;flex-wrap:wrap;gap:12px}
+  .cert{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 18px;font-size:14px}
+  .cert b{display:block;color:var(--ink);margin-bottom:2px}
+  .cert span{font-family:var(--mono);font-size:12px;color:#6B7C90}
+  footer{background:var(--ink);color:#93A9C2;padding:36px 0;font-size:14px}
+  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+  footer a{color:#C7D6E8}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <p class="eyebrow">SAP ABAP / Fiori Developer · Portfolio</p>
+    <h1>홍승욱</h1>
+    <p class="tagline">S/4HANA 환경에서 <strong>MM 조달 프로세스 전 구간</strong>을 Full-Custom CBO로 설계·개발했습니다.
+      화면 하나가 아니라, 문서가 흘러가는 <strong>업무 전체</strong>를 만듭니다.</p>
+
+    <div class="docflow" aria-label="담당 프로그램으로 구성된 구매 문서 흐름">
+      <p class="docflow-label">DOCUMENT FLOW — 아래 전 구간을 직접 개발했습니다. 클릭하면 상세로 이동합니다.</p>
+      <div class="flow">
+        <a href="#pg-mm0001"><span class="step">자재마스터</span><span class="tc">ZC1MM0001</span></a>
+        <span class="arrow">→</span>
+        <a href="#pg-mm0004"><span class="step">구매요청 PR</span><span class="tc">ZRC1MM0004</span></a>
+        <span class="arrow">→</span>
+        <a href="#pg-mm0005"><span class="step">구매오더 PO · 결재</span><span class="tc">ZRC1MM0005</span></a>
+        <span class="arrow">→</span>
+        <a href="#pg-mm0006"><span class="step">정보레코드 PIR</span><span class="tc">ZC1MM0006</span></a>
+        <span class="arrow">→</span>
+        <a href="#pg-mm0010"><span class="step">송장검증 IV</span><span class="tc">ZRC1MM0010</span></a>
+        <span class="arrow">→</span>
+        <a href="#pg-mm0010"><span class="step">FI AP 전표</span><span class="tc">Interface</span></a>
+      </div>
+      <p class="flow-note">+ Fiori(UI5) 앱 3종 : PO 결재 승인 · QR 자재 추적 · SD 변경이력 분석</p>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- 개요 -->
+  <section id="about">
+    <div class="wrap overview">
+      <div>
+        <h2><span class="num">01</span>Project Overview</h2>
+        <p class="sub">태산자전거 S/4HANA ERP 구축 프로젝트 · MM 모듈 담당</p>
+        <p>표준 테이블을 쓰지 않고 <b>전 모듈을 CBO 테이블로 새로 설계·구현</b>하는 Full-Custom 프로젝트에서
+          MM(자재관리) 모듈을 담당했습니다. 테이블·데이터 요소 정의부터 화면, 비즈니스 로직, 타 모듈 인터페이스까지
+          구매 업무의 처음과 끝을 직접 만들었습니다.</p>
+        <p>가장 신경 쓴 것은 <b>데이터 정합성</b>입니다. 확정 시점 단가의 고정 저장, 송장 단위 Roll-up 검증,
+          "1송장 = 1 FI전표" 원자성 보장처럼, 화면 뒤에서 데이터가 어긋나지 않게 하는 설계에 시간을 썼습니다.</p>
+        <p>산출물 : ABAP 프로그램 5종 + Fiori(UI5) 앱 3종, 프로그램 스펙서, 단위/통합 테스트</p>
+      </div>
+      <aside class="stack">
+        <h3>TECH STACK</h3>
+        <dl>
+          <dt>ABAP</dt><dd>Module Pool · ALV Grid/Tree · Search Help · Function Module · SNRO 채번</dd>
+          <dt>최신 ABAP</dt><dd>Eclipse ADT · CDS View · RAP · OData V2/V4</dd>
+          <dt>Frontend</dt><dd>SAPUI5 (Freestyle) · Fiori Elements</dd>
+          <dt>DB 설계</dt><dd>CBO 테이블 · 데이터 요소/도메인 정의</dd>
+          <dt>Tools</dt><dd>SAP GUI · Eclipse ADT · VS Code</dd>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ABAP 프로그램 -->
+  <section id="abap">
+    <div class="wrap">
+      <h2><span class="num">02</span>ABAP Programs</h2>
+      <p class="sub">구매 문서가 생성되고, 승인되고, 회계로 넘어가기까지 — 각 단계를 담당한 5개 프로그램</p>
+      <div class="grid">
+        <article class="pg" id="pg-mm0001">
+          <div class="pg-head"><h3>자재마스터 관리</h3><span class="tcode">ZC1MM0001</span></div>
+          <p class="kind">Module Pool · 조회/수정 이중 모드</p>
+          <ul>
+            <li>조회·수정·신규 등록 + 자재별 재고현황/이미지/메모를 단일 화면에서 처리</li>
+            <li class="hl"><b>미사용(LVORM) 전환 시 진행중 PR/PO 존재를 검증</b>해 저장 차단 + 플래그 자동 원복</li>
+            <li>변경 행만 선별 저장, 기존 행 키 필드는 셀 단위 잠금으로 무결성 유지</li>
+          </ul>
+        </article>
+        <article class="pg" id="pg-mm0004">
+          <div class="pg-head"><h3>구매요청(PR) 관리</h3><span class="tcode">ZRC1MM0004</span></div>
+          <p class="kind">Module Pool · 탭 스트립(조회/생성)</p>
+          <ul>
+            <li>납기 잔여일(D-Day) 자동 계산, 임박 건 상단 정렬로 시급성 시각화</li>
+            <li class="hl"><b>확정 시점의 자재명·단가·통화를 품목에 고정 저장</b> — 이후 단가 변동과 무관하게 금액 보존</li>
+            <li>SNRO 채번으로 번호 충돌 방지, 헤더+아이템 동시 INSERT로 정합성 확보</li>
+          </ul>
+        </article>
+        <article class="pg" id="pg-mm0005">
+          <div class="pg-head"><h3>구매오더(PO) 관리 · 결재</h3><span class="tcode">ZRC1MM0005</span></div>
+          <p class="kind">Module Pool · ALV Tree · 결재 워크플로</p>
+          <ul>
+            <li>확정 PR을 벤더별 Tree로 묶어 PO 분리 생성, 표준발주수량 배수/최소주문수량 보정</li>
+            <li class="hl"><b>금액 기준 결재유형 자동 분기</b>(1,000만원 이하 전결 / 초과 일반결재), 재상신 시 재분기</li>
+            <li>직급 기반 권한 제어 — 결재상신 가능 직급에만 버튼 노출, 미등록자 진입 차단</li>
+          </ul>
+        </article>
+        <article class="pg" id="pg-mm0006">
+          <div class="pg-head"><h3>구매정보레코드(PIR) 관리</h3><span class="tcode">ZC1MM0006</span></div>
+          <p class="kind">Module Pool · 계약 단가 이력</p>
+          <ul>
+            <li>자재+벤더별 계약 단가 이력과 실제 발주 이력을 한 화면에서 비교</li>
+            <li>계약 상태(계약중/만료임박/만료/미계약)를 LED와 행 색으로 시각화</li>
+            <li class="hl"><b>신규 PIR 저장 시 연간계약 PO를 동시 자동 생성</b>해 계약과 발주 계획을 연결</li>
+          </ul>
+        </article>
+        <article class="pg" id="pg-mm0010">
+          <div class="pg-head"><h3>송장검증(IV) · FI 연계</h3><span class="tcode">ZRC1MM0010</span></div>
+          <p class="kind">단건/대량(엑셀 업로드) 이중 구조</p>
+          <ul>
+            <li>3-Way Match : GR 누적·기청구·청구가능 잔량 자동 계산, 단가 오차율 5% 검증</li>
+            <li class="hl"><b>송장 단위 Roll-up 검증</b> — 한 품목이라도 실패하면 해당 송장 전체를 전기 제외</li>
+            <li>정상 건만 FI AP 전표 생성, 중간 오류 시 ROLLBACK으로 MM-FI 정합성 확보</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fiori -->
+  <section id="fiori">
+    <div class="wrap">
+      <h2><span class="num">03</span>Fiori / UI5 Apps</h2>
+      <p class="sub">CDS·RAP으로 백엔드를 만들고, OData로 노출하고, SAPUI5로 화면까지 — 풀스택으로 개발</p>
+      <div class="grid">
+        <article class="pg">
+          <div class="pg-head"><h3>구매오더 결재 승인</h3><span class="tcode">UI5 · OData</span></div>
+          <ul>
+            <li>KPI 필터·다중 선택 일괄 승인, 결재이력 직인 렌더링, 결재서 PDF 자동 생성</li>
+            <li class="hl">RAP 액션(승인/반려) 기반 — <b>직급별 권한을 체크박스 단위로 원천 제어</b></li>
+          </ul>
+        </article>
+        <article class="pg">
+          <div class="pg-head"><h3>QR 자재 추적 관리</h3><span class="tcode">UI5 · OData</span></div>
+          <ul>
+            <li>QR 발행/재발행 관리, 스캔 시 배치 이동이력 타임라인 조회</li>
+            <li class="hl"><b>3D 등각 창고 배치도</b> 재고 대시보드, 모바일 접속 시 스캔 전용 화면으로 재구성</li>
+          </ul>
+        </article>
+        <article class="pg">
+          <div class="pg-head"><h3>[SD] 판매오더 변경이력 분석</h3><span class="tcode">RAP · OData V4</span></div>
+          <ul>
+            <li>타 모듈(SD) 연계 개발 — 변경 전/후 비교, 수량 변경의 납기 영향(ATP) 분석</li>
+            <li class="hl">변경 잦은 고객 랭킹과 납기 위험 3단계 분류로 <b>데이터를 의사결정 정보로 가공</b></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 트러블슈팅 -->
+  <section id="troubleshooting">
+    <div class="wrap">
+      <h2><span class="num">04</span>Troubleshooting</h2>
+      <p class="sub">개발 중 실제로 부딪히고 해결한 문제들 — 문제 · 해결 · 배운 점</p>
+
+      <article class="ts">
+        <h3>FI 전표 부분 전기로 인한 MM-FI 정합성 붕괴 <span class="where">송장검증</span></h3>
+        <div class="row">
+          <span class="k p">문제</span><p>대량 전기 중 일부 오류 발생 시 이미 처리된 송장만 전기되어 MM 이력과 FI 전표 건수가 불일치. 원인은 FI 함수 내부의 <code>COMMIT WORK</code>로 트랜잭션 경계가 분산된 것.</p>
+          <span class="k s">해결</span><p>함수는 예외(RAISE)만 발생시키고 커밋을 금지하도록 FI 담당과 스펙을 문서로 합의. 호출자가 최상위에서 단일 <code>COMMIT WORK AND WAIT</code> / 오류 시 <code>ROLLBACK</code> 수행 → "1송장 = 1전표" 원자성 보장.</p>
+          <span class="k l">배움</span><p>모듈 간 인터페이스는 코드보다 트랜잭션(LUW) 경계 합의가 먼저다.</p>
+        </div>
+      </article>
+
+      <article class="ts">
+        <h3>ALV 이벤트 핸들러 내 오류 메시지로 프로그램 강제 종료 <span class="where">자재마스터</span></h3>
+        <div class="row">
+          <span class="k p">문제</span><p>셀 편집 검증에서 <code>MESSAGE TYPE 'E'</code> 출력 시 프로그램이 비정상 종료되고 입력 데이터 유실. ALV 이벤트 핸들러는 PAI 흐름 밖에서 동작하기 때문.</p>
+          <span class="k s">해결</span><p><code>TYPE 'S' DISPLAY LIKE 'E'</code>로 전환해 흐름을 유지하고, 검증 실패는 플래그로 저장 로직을 차단. 셀 검증은 <code>data_changed_finished</code> 이벤트로 이관.</p>
+          <span class="k l">배움</span><p>프레임워크의 이벤트 실행 컨텍스트를 이해해야 문법상 정상인 코드의 런타임 오류를 막을 수 있다.</p>
+        </div>
+      </article>
+
+      <article class="ts">
+        <h3>저장 시 미관리 필드가 공백으로 덮어써지는 데이터 유실 <span class="where">자재마스터 · PIR</span></h3>
+        <div class="row">
+          <span class="k p">문제</span><p>화면에 없는 필드가 저장 시 초기값(공백)으로 DB를 덮어써 다른 프로그램의 조회가 깨짐.</p>
+          <span class="k s">해결</span><p>저장 패턴 표준화 — DB 원본을 먼저 적재(<code>ls_save = ls_db</code>)한 뒤 화면 값만 <code>MOVE-CORRESPONDING</code>으로 덮어쓰고 MODIFY. 변경 행만 선별 반영.</p>
+          <span class="k l">배움</span><p>"화면 = 테이블 전체"라는 가정은 위험하다. 이후 모든 저장 로직에 원본 우선 적재 패턴을 적용했다.</p>
+        </div>
+      </article>
+
+      <article class="ts">
+        <h3>RAP 채번 시점에 일반 필드 세팅 불가 <span class="where">QR 관리 (RAP)</span></h3>
+        <div class="row">
+          <span class="k p">문제</span><p>QR 번호 채번을 <code>earlynumbering_create</code>에서 처리하며 발행일시·발행자도 함께 세팅했으나 키 외 필드가 저장되지 않음. 스펙상 키 필드만 반환 가능.</p>
+          <span class="k s">해결</span><p>책임 분리 — 채번은 earlynumbering에서 키만, 일반 필드는 별도 Determination(on save)으로 이관. 재발행 로직도 같은 구조로 분리해 중복 발행 차단.</p>
+          <span class="k l">배움</span><p>클래식 ABAP 습관대로 한 곳에서 처리하지 말고, RAP 프레임워크의 단계별 역할에 맞춰 설계해야 한다.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 자격 -->
+  <section id="certs">
+    <div class="wrap">
+      <h2><span class="num">05</span>Certifications</h2>
+      <p class="sub">최신 ABAP 환경(Cloud 개발 모델)까지 준비했습니다</p>
+      <div class="certs">
+        <div class="cert"><b>SAP Certified Associate — Backend Developer, ABAP Cloud</b><span>C_ABAPD_2601</span></div>
+        <div class="cert"><b>SAP Certified Associate — Fiori Application Developer</b><span>C_FIORD</span></div>
+        <div class="cert"><b>SQLD (SQL 개발자)</b><span>한국데이터산업진흥원</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 홍승욱 · SAP ABAP / Fiori Developer</span>
+    <span>
+      <a href="docs/portfolio.pdf">프로그램 스펙서 PDF</a> ·
+      <a href="https://github.com/HSU-0619/sap-mm-portfolio">Source Code</a>
+    </span>
+  </div>
+</footer>
+
+</body>
+</html>
