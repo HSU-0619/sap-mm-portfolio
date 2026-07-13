@@ -1,0 +1,39 @@
+managed implementation in class zbp_cds_c1_mm_0005_rv unique;
+strict ( 2 );
+
+define behavior for ZCDS_C1_MM_0005_RV alias QrHist
+persistent table ztc1mm0028
+lock master
+authorization master ( instance )
+early numbering
+{
+  create;
+  update;
+  delete;
+
+  field ( readonly ) QrNo, QrData, Erdat, Ernam;
+
+  determination setAdminData on save { create; }
+
+  mapping for ztc1mm0028
+  {
+    QrNo     = qr_no;
+    Mblnr    = mblnr;
+    Mjahr    = mjahr;
+    Zeile    = zeile;
+    Charg    = charg;
+    Matnr    = matnr;
+    Werks    = werks;
+    Lgort    = lgort;
+    Ebeln    = ebeln;
+    Ebelp    = ebelp;
+    Lifnr    = lifnr;
+    GrQty    = gr_qty;
+    Meins    = meins;
+    GrDate   = gr_date;
+    QrData   = qr_data;
+    QrStatus = qr_status;
+    Erdat    = erdat;
+    Ernam    = ernam;
+  }
+}

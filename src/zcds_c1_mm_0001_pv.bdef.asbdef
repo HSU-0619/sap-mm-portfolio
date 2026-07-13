@@ -1,0 +1,8 @@
+projection;
+strict ( 2 );
+
+define behavior for ZCDS_C1_MM_0001_PV alias PoApproval
+{
+  use action approve;
+  use action reject;
+}

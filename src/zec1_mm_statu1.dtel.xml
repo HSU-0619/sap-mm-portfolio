@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_DTEL" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <DD04V>
+    <ROLLNAME>ZEC1_MM_STATU1</ROLLNAME>
+    <DDLANGUAGE>E</DDLANGUAGE>
+    <DOMNAME>ZDC1_MM_STATU1</DOMNAME>
+    <HEADLEN>07</HEADLEN>
+    <SCRLEN1>07</SCRLEN1>
+    <SCRLEN2>07</SCRLEN2>
+    <SCRLEN3>07</SCRLEN3>
+    <DDTEXT>처리상태</DDTEXT>
+    <REPTEXT>처리상태</REPTEXT>
+    <SCRTEXT_S>처리상태</SCRTEXT_S>
+    <SCRTEXT_M>처리상태</SCRTEXT_M>
+    <SCRTEXT_L>처리상태</SCRTEXT_L>
+    <DTELMASTER>E</DTELMASTER>
+    <REFKIND>D</REFKIND>
+   </DD04V>
+  </asx:values>
+ </asx:abap>
+</abapGit>

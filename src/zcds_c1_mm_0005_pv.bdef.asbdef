@@ -1,0 +1,9 @@
+projection;
+strict ( 2 );
+
+define behavior for ZCDS_C1_MM_0005_PV alias QrHist
+{
+  use create;
+  use update;
+  use delete;
+}

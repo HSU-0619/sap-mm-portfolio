@@ -1,0 +1,9 @@
+@EndUserText.label: 'SD 판매오더 변경이력 조회 Service'
+define service ZRAP_C1_SD_0015_SRV {
+  expose ZCDS_C1_SD_0015    as ChangeHeader;
+  expose ZCDS_C1_SD_0016    as ChangeItem;
+  expose ZCDS_C1_SD_0017    as Stock;
+  expose ZCDS_C1_SD_0018    as ProdIn;
+  expose ZCDS_C1_SD_0007_RV as DocFlow;
+  expose ZCDS_C1_SD_0019    as CustomerChanges;
+}

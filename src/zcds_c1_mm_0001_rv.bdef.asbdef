@@ -1,0 +1,34 @@
+managed implementation in class zbp_cds_c1_mm_0001_rv unique;
+strict ( 2 );
+
+define behavior for ZCDS_C1_MM_0001_RV alias PoApproval
+persistent table ztc1mm0007
+lock master
+authorization master ( global )
+{
+  update;
+
+  field ( readonly ) Ebeln;
+
+  action approve result [1] $self;
+  action reject parameter zc1_mm_reject_param result [1] $self;
+
+  mapping for ztc1mm0007 corresponding
+  {
+    Ebeln = ebeln;
+    Bsart = bsart;
+    Bukrs = bukrs;
+    Bstyp = bstyp;
+    Lifnr = lifnr;
+    Werks = werks;
+    Bedat = bedat;
+    Waers = waers;
+    Zterm = zterm;
+    Frgkz = frgkz;
+    Statu = statu;
+    Bigo  = bigo;
+    Ernam = ernam;
+    Aedat = aedat;
+    Loekz = loekz;
+  }
+}

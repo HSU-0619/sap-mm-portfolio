@@ -1,0 +1,33 @@
+managed implementation in class zbp_c1_29_mm_rv_01_cds unique;
+strict ( 2 );
+
+define behavior for zc1_29_mm_rv_01_cds alias Header
+persistent table ztc1mm0007
+lock master
+authorization master ( instance )
+{
+  field ( readonly ) Ebeln, Bsart, Bukrs, Bstyp, Lifnr, Werks, Bedat, Waers;
+
+  update;
+
+  // 승인 액션
+  action approve result [1] $self;
+
+  // 반려 액션 (반려사유 파라미터 받음)
+  action reject parameter zc1_mm_reject_param result [1] $self;
+
+  association _Item;
+}
+
+
+define behavior for zc1_29_mm_cv_01_cds alias Item
+persistent table ztc1mm0008
+lock dependent by _Header
+authorization dependent by _Header
+{
+  field ( readonly ) Ebeln, Ebelp;
+
+  update;
+
+  association _Header;
+}

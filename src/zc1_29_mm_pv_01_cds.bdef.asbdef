@@ -1,0 +1,16 @@
+projection;
+strict ( 2 );
+
+define behavior for zc1_29_mm_pv_01_cds alias Header
+{
+  use update;
+  use action approve;
+  use action reject;
+  use association _Item;
+}
+
+define behavior for zc1_29_mm_pv_02_cds alias Item
+{
+  use update;
+  use association _Header;
+}

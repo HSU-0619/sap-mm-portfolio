@@ -1,0 +1,8 @@
+{
+  "BASEINFO": {
+    "FROM": [
+      "ZTC1MM0008",
+      "ZTC1MM0026"
+    ]
+  }
+}

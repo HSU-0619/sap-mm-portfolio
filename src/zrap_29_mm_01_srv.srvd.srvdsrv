@@ -1,0 +1,5 @@
+@EndUserText.label: 'RAP PO Approval Service'
+define service ZRAP_29_mm_01_SRV {
+  expose zc1_29_mm_rv_01_cds as POHeader;
+  expose zc1_29_mm_cv_01_cds as POItem;
+}

@@ -1,0 +1,6 @@
+@EndUserText.label: '결재 승인 프로그램'
+define service ZRAP_C1_MM_0001_SRV {
+  expose ZCDS_C1_MM_0001_PV as PoApproval;
+  expose ZCDS_C1_MM_0002_PV as PoItem;
+  expose ZCDS_C1_MM_0003_PV as PoHistory;
+}

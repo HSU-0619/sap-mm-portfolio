@@ -1,0 +1,8 @@
+@EndUserText.label: 'QR 재고관리 Service'
+define service ZRAP_C1_MM_0002_SRV {
+  expose ZCDS_C1_MM_0004    as QrTarget;
+  expose ZCDS_C1_MM_0005_PV as QrHist;
+  expose ZCDS_C1_MM_0006    as BatchStock;
+  expose ZCDS_C1_MM_0008    as PoEta;
+  expose ZCDS_C1_MM_0009    as BatchHist;
+}

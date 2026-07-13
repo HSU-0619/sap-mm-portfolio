@@ -1,0 +1,3 @@
+sap.ui.define(["sap/ui/core/UIComponent","cl3/c1/mm/mmapproval/model/models"],(e,t)=>{"use strict";return e.extend("cl3.c1.mm.mmapproval.Component",{metadata:{manifest:"json",interfaces:["sap.ui.core.IAsyncContentCreation"]},init(){e.prototype.init.apply+
+(this,arguments);this.setModel(t.createDeviceModel(),"device");this.getRouter().initialize()}})});                                                                                                                                                             
+//# sourceMappingURL=Component.js.map                                                                                                                                                                                                                          

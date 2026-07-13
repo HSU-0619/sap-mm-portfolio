@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_SMIM" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <URL>/SAP/BC/BSP/SAP/ZC1MMQR/images/RM-BRK-320.png</URL>
+   <CLASS>M_IMAGE_L</CLASS>
+   <EXTRA>
+    <FILE_NAME>RM-BRK-320.png</FILE_NAME>
+    <MIMETYPE>image/png</MIMETYPE>
+    <DESCRIPTION>RM-BRK-320.png</DESCRIPTION>
+    <PARENT_FOLDER_ID>2FF24DC976181FD199C024ABCEF8F4A9</PARENT_FOLDER_ID>
+   </EXTRA>
+  </asx:values>
+ </asx:abap>
+</abapGit>

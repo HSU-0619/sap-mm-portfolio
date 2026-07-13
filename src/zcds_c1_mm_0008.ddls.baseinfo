@@ -1,0 +1,10 @@
+{
+  "BASEINFO": {
+    "FROM": [
+      "ZCDS_C1_MM_0007",
+      "ZTC1MM0007",
+      "ZTC1MM0008",
+      "ZTC1MM0022"
+    ]
+  }
+}

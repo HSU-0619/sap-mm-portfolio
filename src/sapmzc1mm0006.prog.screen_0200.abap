@@ -1,0 +1,10 @@
+PROCESS BEFORE OUTPUT.
+  MODULE status_0200.
+
+PROCESS AFTER INPUT.
+  MODULE exit_0200 AT EXIT-COMMAND.
+  MODULE user_command_0200.
+
+PROCESS ON VALUE-REQUEST.
+  FIELD gs_pop-matnr MODULE f4_pop_matnr.
+  FIELD gs_pop-lifnr MODULE f4_pop_lifnr.
