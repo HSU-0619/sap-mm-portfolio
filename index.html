@@ -1,324 +1,424 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>홍승욱 — SAP ABAP / Fiori Developer</title>
-<meta name="description" content="S/4HANA MM 모듈 Full-Custom 구현 포트폴리오. 자재마스터부터 송장검증, FI 전표 연계까지.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --ink:#10243E;         /* 딥 네이비 (본문 헤딩) */
-    --body:#3A4A5E;        /* 본문 텍스트 */
-    --paper:#F7F9FC;       /* 배경 */
-    --card:#FFFFFF;
-    --accent:#0A6ED1;      /* SAP Fiori 블루 */
-    --led-g:#107E3E;       /* SAP semantic: positive */
-    --led-y:#E9730C;       /* SAP semantic: critical */
-    --led-r:#BB0000;       /* SAP semantic: negative */
-    --line:#D5DCE5;
-    --mono:'IBM Plex Mono', monospace;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none!important} }
-  body{
-    font-family:'IBM Plex Sans KR', sans-serif;
-    background:var(--paper); color:var(--body);
-    line-height:1.7; font-size:16px;
-  }
-  .wrap{max-width:980px;margin:0 auto;padding:0 24px}
-  a{color:var(--accent);text-decoration:none}
-  a:focus-visible, button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d2a4b">
+  <meta name="description" content="SAP S/4HANA MM 조달 프로세스를 ABAP, RAP, SAPUI5/Fiori로 구현한 홍승욱의 개발 포트폴리오입니다.">
+  <title>홍승욱 | SAP ABAP · Fiori Developer</title>
+  <style>
+    :root{
+      --navy:#0d2a4b;
+      --navy-2:#153b66;
+      --blue:#0a6ed1;
+      --blue-2:#4aa7f5;
+      --cyan:#dff1ff;
+      --ink:#18263a;
+      --text:#43536a;
+      --muted:#758398;
+      --line:#dce5ef;
+      --paper:#f5f8fc;
+      --card:#ffffff;
+      --green:#18864b;
+      --orange:#df6d17;
+      --red:#c53a43;
+      --shadow:0 18px 45px rgba(15,42,75,.10);
+      --shadow-sm:0 8px 24px rgba(15,42,75,.07);
+      --radius:22px;
+    }
 
-  /* ---------- 헤더 / 히어로 ---------- */
-  header{background:var(--ink);color:#fff;padding:64px 0 48px}
-  .eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.12em;color:#8FB8E8;text-transform:uppercase}
-  h1{font-size:clamp(28px,5vw,44px);font-weight:700;margin:10px 0 6px;color:#fff}
-  .tagline{font-size:clamp(15px,2.4vw,19px);color:#C7D6E8;font-weight:400;max-width:640px}
-  .tagline strong{color:#fff;font-weight:600}
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:Pretendard,"Noto Sans KR","Segoe UI",Arial,sans-serif;
+      color:var(--text);
+      background:var(--paper);
+      line-height:1.65;
+      word-break:keep-all;
+    }
+    img{display:block;max-width:100%}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    .container{width:min(1160px,calc(100% - 40px));margin:0 auto}
+    .section{padding:92px 0}
+    .section-head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:36px}
+    .section-kicker{font-size:12px;font-weight:800;letter-spacing:.16em;color:var(--blue);text-transform:uppercase;margin-bottom:9px}
+    h2{font-size:clamp(28px,4vw,42px);line-height:1.18;color:var(--ink);letter-spacing:-.035em}
+    .section-desc{max-width:560px;color:var(--muted);font-size:15px}
+    .pill{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border-radius:999px;background:#eef5fc;border:1px solid #d8e8f8;color:#315d86;font-size:12px;font-weight:700}
+    .pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--blue)}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:46px;padding:0 18px;border-radius:12px;font-weight:750;font-size:14px;transition:.18s ease;border:1px solid transparent;cursor:pointer}
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{background:var(--blue);color:#fff;box-shadow:0 10px 24px rgba(10,110,209,.24)}
+    .btn-secondary{background:#fff;color:var(--navy);border-color:#cfdbe8}
+    .btn-dark{background:var(--navy);color:#fff}
+    .btn-ghost{color:#4d6380;background:transparent;border-color:#cfdbe8}
+    .btn svg{width:17px;height:17px}
 
-  /* 시그니처: 문서 흐름 다이어그램 */
-  .docflow{margin-top:40px;padding:24px 20px;background:rgba(255,255,255,.05);
-    border:1px solid rgba(255,255,255,.14);border-radius:10px}
-  .docflow-label{font-family:var(--mono);font-size:12px;color:#8FB8E8;margin-bottom:14px;letter-spacing:.08em}
-  .flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 4px}
-  .flow a{display:inline-flex;flex-direction:column;gap:2px;padding:10px 14px;border-radius:8px;
-    background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
-    transition:background .15s, transform .15s}
-  .flow a:hover{background:rgba(255,255,255,.16);transform:translateY(-2px)}
-  .flow .step{color:#fff;font-weight:600;font-size:14px;line-height:1.3}
-  .flow .tc{font-family:var(--mono);font-size:11px;color:#8FB8E8}
-  .flow .arrow{color:#5C7FA6;font-family:var(--mono);font-size:15px;padding:0 2px;user-select:none}
-  .flow-note{margin-top:12px;font-size:13px;color:#93A9C2}
+    /* navigation */
+    .nav-wrap{position:sticky;top:0;z-index:50;background:rgba(245,248,252,.88);backdrop-filter:blur(18px);border-bottom:1px solid rgba(207,219,232,.8)}
+    nav{height:72px;display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:11px;font-weight:850;color:var(--ink);letter-spacing:-.02em}
+    .brand-mark{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(145deg,var(--blue),#044f9b);color:#fff;font-size:13px;box-shadow:0 8px 18px rgba(10,110,209,.22)}
+    .nav-links{display:flex;align-items:center;gap:24px;font-size:13px;font-weight:700;color:#5e7086}
+    .nav-links a:hover{color:var(--blue)}
+    .nav-actions{display:flex;gap:9px}
+    .mobile-menu{display:none;border:0;background:#fff;border-radius:10px;padding:10px;border:1px solid var(--line)}
 
-  /* ---------- 공통 섹션 ---------- */
-  section{padding:56px 0}
-  section + section{border-top:1px solid var(--line)}
-  h2{color:var(--ink);font-size:22px;font-weight:700;margin-bottom:6px}
-  .sub{font-size:14.5px;color:#6B7C90;margin-bottom:28px}
-  h2 .num{font-family:var(--mono);color:var(--accent);font-size:15px;margin-right:10px}
+    /* hero */
+    .hero{position:relative;overflow:hidden;background:linear-gradient(132deg,#0c2747 0%,#123d6c 58%,#0a6ed1 140%);color:#fff;padding:86px 0 82px}
+    .hero::before{content:"";position:absolute;inset:-20% auto auto 54%;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,rgba(85,180,255,.22),rgba(85,180,255,0) 70%)}
+    .hero::after{content:"";position:absolute;inset:auto auto -260px -170px;width:520px;height:520px;border-radius:50%;border:1px solid rgba(255,255,255,.09)}
+    .hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.08fr .92fr;gap:64px;align-items:center}
+    .hero-badge{display:inline-flex;align-items:center;gap:9px;margin-bottom:22px;padding:8px 12px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(255,255,255,.07);font-size:12px;font-weight:750;color:#b9dbff}
+    .hero-badge span{width:7px;height:7px;background:#72c5ff;border-radius:50%;box-shadow:0 0 0 5px rgba(114,197,255,.12)}
+    .hero h1{font-size:clamp(38px,6vw,66px);line-height:1.12;letter-spacing:-.055em;margin-bottom:22px}
+    .hero h1 em{font-style:normal;color:#77c5ff}
+    .hero-copy{font-size:clamp(16px,2.1vw,20px);color:#c9d9eb;max-width:660px;margin-bottom:32px}
+    .hero-copy strong{color:#fff}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:11px;margin-bottom:34px}
+    .hero .btn-secondary{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.22);color:#fff}
+    .hero-meta{display:flex;flex-wrap:wrap;gap:18px;color:#a8c1da;font-size:13px}
+    .hero-meta span{display:flex;align-items:center;gap:7px}
+    .hero-meta i{display:inline-block;width:5px;height:5px;background:#73c6ff;border-radius:50%}
 
-  /* 개요 */
-  .overview{display:grid;grid-template-columns:1.4fr 1fr;gap:36px}
-  @media(max-width:760px){.overview{grid-template-columns:1fr}}
-  .overview p{margin-bottom:14px}
-  .overview b{color:var(--ink)}
-  .stack{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px}
-  .stack h3{font-size:14px;color:var(--ink);font-family:var(--mono);letter-spacing:.06em;margin-bottom:12px}
-  .stack dl{display:grid;grid-template-columns:88px 1fr;gap:8px 12px;font-size:13.5px}
-  .stack dt{color:var(--ink);font-weight:600}
-  .stack dd{color:var(--body)}
+    .hero-panel{position:relative;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:26px;padding:26px;box-shadow:0 30px 70px rgba(0,0,0,.16);backdrop-filter:blur(8px)}
+    .panel-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+    .panel-title{font-size:13px;font-weight:800;letter-spacing:.08em;color:#b9dbff}
+    .panel-live{display:flex;align-items:center;gap:7px;font-size:11px;color:#b7d4ed}
+    .panel-live::before{content:"";width:7px;height:7px;border-radius:50%;background:#54dc93;box-shadow:0 0 0 5px rgba(84,220,147,.12)}
+    .flow-board{display:grid;gap:10px}
+    .flow-row{display:grid;grid-template-columns:1fr 34px 1fr;align-items:center}
+    .flow-node{padding:14px;border-radius:14px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.13)}
+    .flow-node strong{display:block;font-size:14px;color:#fff;margin-bottom:2px}
+    .flow-node small{font-size:11px;color:#9fc7ed}
+    .flow-arrow{text-align:center;color:#79baf0;font-weight:900}
+    .flow-wide{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:2px}
+    .mini-stat{padding:14px 12px;border-radius:14px;background:#fff;color:var(--ink)}
+    .mini-stat b{display:block;font-size:25px;line-height:1;margin-bottom:5px;color:var(--blue)}
+    .mini-stat span{font-size:11px;color:#697d94}
 
-  /* 프로그램 카드 */
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  @media(max-width:760px){.grid{grid-template-columns:1fr}}
-  .pg{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px 22px;
-    transition:box-shadow .15s, transform .15s}
-  .pg:hover{box-shadow:0 6px 20px rgba(16,36,62,.08);transform:translateY(-2px)}
-  .pg-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:4px}
-  .pg h3{font-size:16.5px;color:var(--ink);font-weight:700}
-  .tcode{font-family:var(--mono);font-size:12px;color:var(--accent);background:#EAF3FC;
-    padding:2px 8px;border-radius:4px;white-space:nowrap}
-  .pg .kind{font-family:var(--mono);font-size:11.5px;color:#6B7C90;margin-bottom:12px}
-  .pg ul{list-style:none}
-  .pg li{position:relative;padding-left:18px;font-size:14px;margin-bottom:7px}
-  .pg li::before{content:'';position:absolute;left:2px;top:9px;width:8px;height:8px;border-radius:50%;
-    background:var(--led-g)} /* ALV 상태 LED 오마주 */
-  .pg li.hl::before{background:var(--led-y)}
-  .pg li b{color:var(--ink)}
+    /* highlights */
+    .summary-strip{margin-top:-30px;position:relative;z-index:4}
+    .summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .summary-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:var(--shadow-sm)}
+    .summary-icon{width:42px;height:42px;border-radius:13px;background:#eaf4fe;color:var(--blue);display:grid;place-items:center;margin-bottom:16px}
+    .summary-card h3{font-size:17px;color:var(--ink);margin-bottom:7px;letter-spacing:-.02em}
+    .summary-card p{font-size:14px;color:var(--muted)}
 
-  /* 트러블슈팅 */
-  .ts{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--led-r);
-    border-radius:8px;padding:20px 22px;margin-bottom:14px}
-  .ts h3{font-size:15.5px;color:var(--ink);margin-bottom:10px}
-  .ts h3 .where{font-family:var(--mono);font-size:12px;color:#6B7C90;font-weight:400;margin-left:8px}
-  .ts .row{display:grid;grid-template-columns:56px 1fr;gap:6px 14px;font-size:14px}
-  .ts .k{font-family:var(--mono);font-size:12px;font-weight:600;padding-top:2px}
-  .ts .k.p{color:var(--led-r)} .ts .k.s{color:var(--accent)} .ts .k.l{color:var(--led-g)}
-  .ts code{font-family:var(--mono);font-size:12.5px;background:#F0F4F9;padding:1px 6px;border-radius:4px;color:var(--ink)}
+    /* process */
+    .process-shell{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:34px;box-shadow:var(--shadow-sm)}
+    .process-master{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+    .master-card{padding:16px 18px;border-radius:15px;background:#eef6fd;border:1px solid #d7e9f9}
+    .master-card strong{display:block;color:var(--navy);font-size:14px}
+    .master-card span{font-size:12px;color:#5f7892}
+    .process-line{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;align-items:stretch}
+    .process-step{position:relative;min-height:126px;padding:18px 14px;border-radius:16px;border:1px solid var(--line);background:#fff}
+    .process-step:not(:last-child)::after{content:"→";position:absolute;right:-10px;top:50%;transform:translateY(-50%);z-index:2;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;background:var(--paper);color:#8aa2bb;font-size:12px}
+    .process-step .no{font-size:11px;font-weight:850;color:var(--blue);margin-bottom:9px}
+    .process-step strong{display:block;font-size:14px;color:var(--ink);margin-bottom:5px}
+    .process-step span{font-size:11px;color:var(--muted)}
+    .owner{display:inline-flex!important;margin-top:12px;padding:4px 7px;border-radius:999px;background:#e8f7ee;color:var(--green)!important;font-size:10px!important;font-weight:800}
+    .owner.shared{background:#fff2e6;color:var(--orange)!important}
 
-  /* 자격 / 푸터 */
-  .certs{display:flex;flex-wrap:wrap;gap:12px}
-  .cert{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 18px;font-size:14px}
-  .cert b{display:block;color:var(--ink);margin-bottom:2px}
-  .cert span{font-family:var(--mono);font-size:12px;color:#6B7C90}
-  footer{background:var(--ink);color:#93A9C2;padding:36px 0;font-size:14px}
-  footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
-  footer a{color:#C7D6E8}
-</style>
+    /* work cards */
+    .work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+    .work-card{overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow-sm);transition:.2s ease}
+    .work-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+    .work-thumb{position:relative;aspect-ratio:16/9;background:#eaf0f6;overflow:hidden;border-bottom:1px solid var(--line)}
+    .work-thumb img{width:100%;height:100%;object-fit:cover;transition:.25s ease}
+    .work-card:hover .work-thumb img{transform:scale(1.015)}
+    .thumb-button{position:absolute;right:14px;bottom:14px;width:42px;height:42px;border:0;border-radius:13px;background:rgba(13,42,75,.88);color:#fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 8px 22px rgba(0,0,0,.2)}
+    .thumb-button svg{width:18px;height:18px}
+    .work-content{padding:24px}
+    .work-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:13px}
+    .work-top h3{font-size:21px;line-height:1.3;color:var(--ink);letter-spacing:-.025em}
+    .code-id{font-family:Consolas,monospace;font-size:11px;padding:5px 8px;border-radius:7px;background:#eef5fc;color:#236cae;white-space:nowrap}
+    .work-content p{font-size:14px;color:#66788e;margin-bottom:17px}
+    .feature-list{display:grid;gap:9px;margin-bottom:21px}
+    .feature-list li{list-style:none;position:relative;padding-left:18px;font-size:13px;color:#43546a}
+    .feature-list li::before{content:"";position:absolute;left:0;top:8px;width:7px;height:7px;border-radius:50%;background:var(--blue)}
+    .feature-list strong{color:var(--ink)}
+    .tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:21px}
+    .tag{font-size:11px;font-weight:700;padding:5px 8px;border-radius:7px;background:#f2f5f8;color:#5b6d82;border:1px solid #e2e8ef}
+    .work-links{display:flex;gap:9px;flex-wrap:wrap}
+    .work-links .btn{min-height:40px;padding:0 13px;font-size:12px;border-radius:10px}
+
+    /* Fiori */
+    .fiori-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .fiori-card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm)}
+    .fiori-card img{width:100%;aspect-ratio:16/9;object-fit:cover;border-bottom:1px solid var(--line)}
+    .fiori-body{padding:20px}
+    .fiori-body h3{font-size:17px;color:var(--ink);margin-bottom:7px}
+    .fiori-body p{font-size:13px;color:var(--muted);margin-bottom:15px}
+    .fiori-link{font-size:12px;color:var(--blue);font-weight:800}
+
+    /* case studies */
+    .case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+    .case-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:23px;box-shadow:var(--shadow-sm)}
+    .case-label{display:inline-flex;padding:5px 8px;border-radius:7px;font-size:10px;font-weight:850;margin-bottom:14px}
+    .case-label.red{background:#fdebed;color:var(--red)}
+    .case-label.blue{background:#eaf4fe;color:var(--blue)}
+    .case-label.green{background:#eaf7ef;color:var(--green)}
+    .case-card h3{font-size:17px;line-height:1.4;color:var(--ink);margin-bottom:11px}
+    .case-card p{font-size:13px;color:#66788e}
+    .case-card strong{color:var(--ink)}
+
+    /* deliverables */
+    .deliverables{display:grid;grid-template-columns:1.15fr .85fr;gap:22px}
+    .deliverable-primary{position:relative;overflow:hidden;background:linear-gradient(135deg,#0d2a4b,#174d82);border-radius:24px;padding:34px;color:#fff;box-shadow:var(--shadow)}
+    .deliverable-primary::after{content:"";position:absolute;right:-90px;bottom:-120px;width:300px;height:300px;border-radius:50%;background:rgba(100,193,255,.13)}
+    .deliverable-primary h3{font-size:27px;margin-bottom:10px;letter-spacing:-.03em}
+    .deliverable-primary p{color:#bed0e3;font-size:14px;max-width:620px;margin-bottom:24px}
+    .deliverable-actions{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:2}
+    .deliverable-primary .btn-primary{background:#fff;color:var(--navy);box-shadow:none}
+    .deliverable-primary .btn-secondary{background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.2)}
+    .deliverable-side{display:grid;gap:14px}
+    .resource-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;gap:15px;align-items:flex-start;box-shadow:var(--shadow-sm)}
+    .resource-icon{width:42px;height:42px;border-radius:13px;background:#eef5fc;color:var(--blue);display:grid;place-items:center;flex:none}
+    .resource-card h4{font-size:15px;color:var(--ink);margin-bottom:4px}
+    .resource-card p{font-size:12px;color:var(--muted);margin-bottom:7px}
+    .resource-card a{font-size:12px;font-weight:800;color:var(--blue)}
+
+    /* certs */
+    .cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .cert-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow-sm)}
+    .cert-card .cert-type{font-size:11px;font-weight:850;color:var(--blue);letter-spacing:.08em;margin-bottom:11px}
+    .cert-card h3{font-size:15px;line-height:1.45;color:var(--ink);margin-bottom:6px}
+    .cert-card p{font-family:Consolas,monospace;font-size:11px;color:var(--muted)}
+
+    footer{background:#0a223d;color:#b5c6d8;padding:34px 0}
+    .footer-inner{display:flex;justify-content:space-between;align-items:center;gap:18px;font-size:13px}
+    .footer-links{display:flex;gap:17px;font-weight:700}
+    .footer-links a:hover{color:#fff}
+
+    /* dialog */
+    dialog{border:0;border-radius:18px;padding:0;background:#fff;box-shadow:0 30px 100px rgba(0,0,0,.28);width:min(1160px,calc(100% - 28px));max-height:92vh}
+    dialog::backdrop{background:rgba(6,20,36,.72);backdrop-filter:blur(5px)}
+    .dialog-bar{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}
+    .dialog-bar strong{color:var(--ink);font-size:14px}
+    .dialog-close{border:0;background:#eef3f8;width:36px;height:36px;border-radius:10px;cursor:pointer;color:var(--navy);font-size:20px}
+    .dialog-img{width:100%;max-height:calc(92vh - 66px);object-fit:contain;background:#eaf0f5}
+
+    @media(max-width:980px){
+      .nav-links{display:none}
+      .hero-grid{grid-template-columns:1fr;gap:42px}
+      .hero-panel{max-width:720px}
+      .process-line{grid-template-columns:repeat(3,1fr)}
+      .process-step:nth-child(3)::after{display:none}
+      .process-step:nth-child(4)::before{content:"↓";position:absolute;left:50%;top:-18px;color:#8aa2bb}
+      .fiori-grid,.case-grid,.cert-grid{grid-template-columns:1fr 1fr}
+      .deliverables{grid-template-columns:1fr}
+    }
+    @media(max-width:720px){
+      .container{width:min(100% - 28px,1160px)}
+      .section{padding:70px 0}
+      nav{height:64px}
+      .nav-actions .btn-secondary{display:none}
+      .hero{padding:64px 0 72px}
+      .hero-grid{gap:34px}
+      .summary-grid,.work-grid,.fiori-grid,.case-grid,.cert-grid{grid-template-columns:1fr}
+      .section-head{align-items:flex-start;flex-direction:column}
+      .process-shell{padding:22px}
+      .process-master{grid-template-columns:1fr}
+      .process-line{grid-template-columns:1fr}
+      .process-step:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-15px;transform:translateX(-50%)}
+      .process-step:nth-child(3)::after{display:grid}
+      .process-step:nth-child(4)::before{display:none}
+      .flow-wide{grid-template-columns:1fr}
+      .hero-meta{gap:10px;flex-direction:column}
+      .footer-inner{align-items:flex-start;flex-direction:column}
+    }
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  </style>
 </head>
 <body>
-
-<header>
-  <div class="wrap">
-    <p class="eyebrow">SAP ABAP / Fiori Developer · Portfolio</p>
-    <h1>홍승욱</h1>
-    <p class="tagline">S/4HANA 환경에서 <strong>MM 조달 프로세스 전 구간</strong>을 Full-Custom CBO로 설계·개발했습니다.
-      화면 하나가 아니라, 문서가 흘러가는 <strong>업무 전체</strong>를 만듭니다.</p>
-
-    <div class="docflow" aria-label="담당 프로그램으로 구성된 구매 문서 흐름">
-      <p class="docflow-label">DOCUMENT FLOW — 아래 전 구간을 직접 개발했습니다. 클릭하면 상세로 이동합니다.</p>
-      <div class="flow">
-        <a href="#pg-mm0001"><span class="step">자재마스터</span><span class="tc">ZC1MM0001</span></a>
-        <span class="arrow">→</span>
-        <a href="#pg-mm0004"><span class="step">구매요청 PR</span><span class="tc">ZRC1MM0004</span></a>
-        <span class="arrow">→</span>
-        <a href="#pg-mm0005"><span class="step">구매오더 PO · 결재</span><span class="tc">ZRC1MM0005</span></a>
-        <span class="arrow">→</span>
-        <a href="#pg-mm0006"><span class="step">정보레코드 PIR</span><span class="tc">ZC1MM0006</span></a>
-        <span class="arrow">→</span>
-        <a href="#pg-mm0010"><span class="step">송장검증 IV</span><span class="tc">ZRC1MM0010</span></a>
-        <span class="arrow">→</span>
-        <a href="#pg-mm0010"><span class="step">FI AP 전표</span><span class="tc">Interface</span></a>
+  <div class="nav-wrap">
+    <nav class="container" aria-label="주요 메뉴">
+      <a class="brand" href="#top"><span class="brand-mark">HS</span><span>홍승욱 Portfolio</span></a>
+      <div class="nav-links">
+        <a href="#overview">Overview</a>
+        <a href="#work">ABAP</a>
+        <a href="#fiori">Fiori</a>
+        <a href="#cases">Troubleshooting</a>
+        <a href="#deliverables">Deliverables</a>
       </div>
-      <p class="flow-note">+ Fiori(UI5) 앱 3종 : PO 결재 승인 · QR 자재 추적 · SD 변경이력 분석</p>
-    </div>
+      <div class="nav-actions">
+        <a class="btn btn-secondary" href="https://github.com/HSU-0619/sap-mm-portfolio/tree/main/src" target="_blank" rel="noopener">Source</a>
+        <a class="btn btn-primary" href="docs/program-spec.pdf" target="_blank" rel="noopener">스펙서 보기</a>
+      </div>
+    </nav>
   </div>
-</header>
 
-<main>
-  <!-- 개요 -->
-  <section id="about">
-    <div class="wrap overview">
+  <header class="hero" id="top">
+    <div class="container hero-grid">
       <div>
-        <h2><span class="num">01</span>Project Overview</h2>
-        <p class="sub">태산자전거 S/4HANA ERP 구축 프로젝트 · MM 모듈 담당</p>
-        <p>표준 테이블을 쓰지 않고 <b>전 모듈을 CBO 테이블로 새로 설계·구현</b>하는 Full-Custom 프로젝트에서
-          MM(자재관리) 모듈을 담당했습니다. 테이블·데이터 요소 정의부터 화면, 비즈니스 로직, 타 모듈 인터페이스까지
-          구매 업무의 처음과 끝을 직접 만들었습니다.</p>
-        <p>가장 신경 쓴 것은 <b>데이터 정합성</b>입니다. 확정 시점 단가의 고정 저장, 송장 단위 Roll-up 검증,
-          "1송장 = 1 FI전표" 원자성 보장처럼, 화면 뒤에서 데이터가 어긋나지 않게 하는 설계에 시간을 썼습니다.</p>
-        <p>산출물 : ABAP 프로그램 5종 + Fiori(UI5) 앱 3종, 프로그램 스펙서, 단위/통합 테스트</p>
+        <div class="hero-badge"><span></span>SAP MM · ABAP · RAP · SAPUI5/Fiori</div>
+        <h1>구매 업무의 흐름을<br><em>데이터로 연결하는</em> 개발자</h1>
+        <p class="hero-copy">SAP S/4HANA Full-Custom 프로젝트에서 <strong>자재마스터·구매요청·구매오더·송장검증</strong>을 설계하고, RAP/OData와 Fiori 화면까지 연결했습니다.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#work">대표 개발 보기</a>
+          <a class="btn btn-secondary" href="docs/program-spec.pdf" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2h9l3 3v17H6z"/><path d="M14 2v4h4"/><path d="M9 13h6M9 17h6M9 9h2"/></svg>
+            프로그램 스펙서 PDF
+          </a>
+        </div>
+        <div class="hero-meta">
+          <span><i></i>ABAP 프로그램 5종</span>
+          <span><i></i>Fiori/UI5 앱 3종</span>
+          <span><i></i>MM-FI·SD·PP 연계 경험</span>
+        </div>
       </div>
-      <aside class="stack">
-        <h3>TECH STACK</h3>
-        <dl>
-          <dt>ABAP</dt><dd>Module Pool · ALV Grid/Tree · Search Help · Function Module · SNRO 채번</dd>
-          <dt>최신 ABAP</dt><dd>Eclipse ADT · CDS View · RAP · OData V2/V4</dd>
-          <dt>Frontend</dt><dd>SAPUI5 (Freestyle) · Fiori Elements</dd>
-          <dt>DB 설계</dt><dd>CBO 테이블 · 데이터 요소/도메인 정의</dd>
-          <dt>Tools</dt><dd>SAP GUI · Eclipse ADT · VS Code</dd>
-        </dl>
+
+      <aside class="hero-panel" aria-label="프로젝트 요약">
+        <div class="panel-top"><span class="panel-title">PROCUREMENT FLOW</span><span class="panel-live">Project evidence ready</span></div>
+        <div class="flow-board">
+          <div class="flow-row"><div class="flow-node"><strong>Material / PIR</strong><small>기준정보 · 계약단가</small></div><div class="flow-arrow">→</div><div class="flow-node"><strong>PR</strong><small>생성 · 확정 · 수정</small></div></div>
+          <div class="flow-row"><div class="flow-node"><strong>PO / Approval</strong><small>벤더별 생성 · 결재</small></div><div class="flow-arrow">→</div><div class="flow-node"><strong>IV / FI</strong><small>3-Way Match · AP 전표</small></div></div>
+          <div class="flow-wide">
+            <div class="mini-stat"><b>5</b><span>Classic ABAP programs</span></div>
+            <div class="mini-stat"><b>3</b><span>Fiori/UI5 applications</span></div>
+            <div class="mini-stat"><b>11p</b><span>Program specification</span></div>
+          </div>
+        </div>
       </aside>
     </div>
-  </section>
+  </header>
 
-  <!-- ABAP 프로그램 -->
-  <section id="abap">
-    <div class="wrap">
-      <h2><span class="num">02</span>ABAP Programs</h2>
-      <p class="sub">구매 문서가 생성되고, 승인되고, 회계로 넘어가기까지 — 각 단계를 담당한 5개 프로그램</p>
-      <div class="grid">
-        <article class="pg" id="pg-mm0001">
-          <div class="pg-head"><h3>자재마스터 관리</h3><span class="tcode">ZC1MM0001</span></div>
-          <p class="kind">Module Pool · 조회/수정 이중 모드</p>
-          <ul>
-            <li>조회·수정·신규 등록 + 자재별 재고현황/이미지/메모를 단일 화면에서 처리</li>
-            <li class="hl"><b>미사용(LVORM) 전환 시 진행중 PR/PO 존재를 검증</b>해 저장 차단 + 플래그 자동 원복</li>
-            <li>변경 행만 선별 저장, 기존 행 키 필드는 셀 단위 잠금으로 무결성 유지</li>
-          </ul>
-        </article>
-        <article class="pg" id="pg-mm0004">
-          <div class="pg-head"><h3>구매요청(PR) 관리</h3><span class="tcode">ZRC1MM0004</span></div>
-          <p class="kind">Module Pool · 탭 스트립(조회/생성)</p>
-          <ul>
-            <li>납기 잔여일(D-Day) 자동 계산, 임박 건 상단 정렬로 시급성 시각화</li>
-            <li class="hl"><b>확정 시점의 자재명·단가·통화를 품목에 고정 저장</b> — 이후 단가 변동과 무관하게 금액 보존</li>
-            <li>SNRO 채번으로 번호 충돌 방지, 헤더+아이템 동시 INSERT로 정합성 확보</li>
-          </ul>
-        </article>
-        <article class="pg" id="pg-mm0005">
-          <div class="pg-head"><h3>구매오더(PO) 관리 · 결재</h3><span class="tcode">ZRC1MM0005</span></div>
-          <p class="kind">Module Pool · ALV Tree · 결재 워크플로</p>
-          <ul>
-            <li>확정 PR을 벤더별 Tree로 묶어 PO 분리 생성, 표준발주수량 배수/최소주문수량 보정</li>
-            <li class="hl"><b>금액 기준 결재유형 자동 분기</b>(1,000만원 이하 전결 / 초과 일반결재), 재상신 시 재분기</li>
-            <li>직급 기반 권한 제어 — 결재상신 가능 직급에만 버튼 노출, 미등록자 진입 차단</li>
-          </ul>
-        </article>
-        <article class="pg" id="pg-mm0006">
-          <div class="pg-head"><h3>구매정보레코드(PIR) 관리</h3><span class="tcode">ZC1MM0006</span></div>
-          <p class="kind">Module Pool · 계약 단가 이력</p>
-          <ul>
-            <li>자재+벤더별 계약 단가 이력과 실제 발주 이력을 한 화면에서 비교</li>
-            <li>계약 상태(계약중/만료임박/만료/미계약)를 LED와 행 색으로 시각화</li>
-            <li class="hl"><b>신규 PIR 저장 시 연간계약 PO를 동시 자동 생성</b>해 계약과 발주 계획을 연결</li>
-          </ul>
-        </article>
-        <article class="pg" id="pg-mm0010">
-          <div class="pg-head"><h3>송장검증(IV) · FI 연계</h3><span class="tcode">ZRC1MM0010</span></div>
-          <p class="kind">단건/대량(엑셀 업로드) 이중 구조</p>
-          <ul>
-            <li>3-Way Match : GR 누적·기청구·청구가능 잔량 자동 계산, 단가 오차율 5% 검증</li>
-            <li class="hl"><b>송장 단위 Roll-up 검증</b> — 한 품목이라도 실패하면 해당 송장 전체를 전기 제외</li>
-            <li>정상 건만 FI AP 전표 생성, 중간 오류 시 ROLLBACK으로 MM-FI 정합성 확보</li>
-          </ul>
-        </article>
-      </div>
+  <div class="container summary-strip" id="overview">
+    <div class="summary-grid">
+      <article class="summary-card"><div class="summary-icon">↔</div><h3>End-to-End 관점</h3><p>단위 화면이 아니라 PR→PO→입고이력→IV→FI로 이어지는 문서와 데이터 흐름을 기준으로 설계했습니다.</p></article>
+      <article class="summary-card"><div class="summary-icon">✓</div><h3>데이터 정합성 우선</h3><p>확정 단가 보존, 송장 단위 Roll-up, 단일 COMMIT/ROLLBACK 등 저장 시점과 트랜잭션 경계를 명확히 했습니다.</p></article>
+      <article class="summary-card"><div class="summary-icon">◇</div><h3>Backend to UI</h3><p>ABAP·CBO·CDS·RAP·OData부터 SAPUI5/Fiori 화면까지 기능이 실제로 연결되는 풀스택 경험을 쌓았습니다.</p></article>
     </div>
-  </section>
-
-  <!-- Fiori -->
-  <section id="fiori">
-    <div class="wrap">
-      <h2><span class="num">03</span>Fiori / UI5 Apps</h2>
-      <p class="sub">CDS·RAP으로 백엔드를 만들고, OData로 노출하고, SAPUI5로 화면까지 — 풀스택으로 개발</p>
-      <div class="grid">
-        <article class="pg">
-          <div class="pg-head"><h3>구매오더 결재 승인</h3><span class="tcode">UI5 · OData</span></div>
-          <ul>
-            <li>KPI 필터·다중 선택 일괄 승인, 결재이력 직인 렌더링, 결재서 PDF 자동 생성</li>
-            <li class="hl">RAP 액션(승인/반려) 기반 — <b>직급별 권한을 체크박스 단위로 원천 제어</b></li>
-          </ul>
-        </article>
-        <article class="pg">
-          <div class="pg-head"><h3>QR 자재 추적 관리</h3><span class="tcode">UI5 · OData</span></div>
-          <ul>
-            <li>QR 발행/재발행 관리, 스캔 시 배치 이동이력 타임라인 조회</li>
-            <li class="hl"><b>3D 등각 창고 배치도</b> 재고 대시보드, 모바일 접속 시 스캔 전용 화면으로 재구성</li>
-          </ul>
-        </article>
-        <article class="pg">
-          <div class="pg-head"><h3>[SD] 판매오더 변경이력 분석</h3><span class="tcode">RAP · OData V4</span></div>
-          <ul>
-            <li>타 모듈(SD) 연계 개발 — 변경 전/후 비교, 수량 변경의 납기 영향(ATP) 분석</li>
-            <li class="hl">변경 잦은 고객 랭킹과 납기 위험 3단계 분류로 <b>데이터를 의사결정 정보로 가공</b></li>
-          </ul>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- 트러블슈팅 -->
-  <section id="troubleshooting">
-    <div class="wrap">
-      <h2><span class="num">04</span>Troubleshooting</h2>
-      <p class="sub">개발 중 실제로 부딪히고 해결한 문제들 — 문제 · 해결 · 배운 점</p>
-
-      <article class="ts">
-        <h3>FI 전표 부분 전기로 인한 MM-FI 정합성 붕괴 <span class="where">송장검증</span></h3>
-        <div class="row">
-          <span class="k p">문제</span><p>대량 전기 중 일부 오류 발생 시 이미 처리된 송장만 전기되어 MM 이력과 FI 전표 건수가 불일치. 원인은 FI 함수 내부의 <code>COMMIT WORK</code>로 트랜잭션 경계가 분산된 것.</p>
-          <span class="k s">해결</span><p>함수는 예외(RAISE)만 발생시키고 커밋을 금지하도록 FI 담당과 스펙을 문서로 합의. 호출자가 최상위에서 단일 <code>COMMIT WORK AND WAIT</code> / 오류 시 <code>ROLLBACK</code> 수행 → "1송장 = 1전표" 원자성 보장.</p>
-          <span class="k l">배움</span><p>모듈 간 인터페이스는 코드보다 트랜잭션(LUW) 경계 합의가 먼저다.</p>
-        </div>
-      </article>
-
-      <article class="ts">
-        <h3>ALV 이벤트 핸들러 내 오류 메시지로 프로그램 강제 종료 <span class="where">자재마스터</span></h3>
-        <div class="row">
-          <span class="k p">문제</span><p>셀 편집 검증에서 <code>MESSAGE TYPE 'E'</code> 출력 시 프로그램이 비정상 종료되고 입력 데이터 유실. ALV 이벤트 핸들러는 PAI 흐름 밖에서 동작하기 때문.</p>
-          <span class="k s">해결</span><p><code>TYPE 'S' DISPLAY LIKE 'E'</code>로 전환해 흐름을 유지하고, 검증 실패는 플래그로 저장 로직을 차단. 셀 검증은 <code>data_changed_finished</code> 이벤트로 이관.</p>
-          <span class="k l">배움</span><p>프레임워크의 이벤트 실행 컨텍스트를 이해해야 문법상 정상인 코드의 런타임 오류를 막을 수 있다.</p>
-        </div>
-      </article>
-
-      <article class="ts">
-        <h3>저장 시 미관리 필드가 공백으로 덮어써지는 데이터 유실 <span class="where">자재마스터 · PIR</span></h3>
-        <div class="row">
-          <span class="k p">문제</span><p>화면에 없는 필드가 저장 시 초기값(공백)으로 DB를 덮어써 다른 프로그램의 조회가 깨짐.</p>
-          <span class="k s">해결</span><p>저장 패턴 표준화 — DB 원본을 먼저 적재(<code>ls_save = ls_db</code>)한 뒤 화면 값만 <code>MOVE-CORRESPONDING</code>으로 덮어쓰고 MODIFY. 변경 행만 선별 반영.</p>
-          <span class="k l">배움</span><p>"화면 = 테이블 전체"라는 가정은 위험하다. 이후 모든 저장 로직에 원본 우선 적재 패턴을 적용했다.</p>
-        </div>
-      </article>
-
-      <article class="ts">
-        <h3>RAP 채번 시점에 일반 필드 세팅 불가 <span class="where">QR 관리 (RAP)</span></h3>
-        <div class="row">
-          <span class="k p">문제</span><p>QR 번호 채번을 <code>earlynumbering_create</code>에서 처리하며 발행일시·발행자도 함께 세팅했으나 키 외 필드가 저장되지 않음. 스펙상 키 필드만 반환 가능.</p>
-          <span class="k s">해결</span><p>책임 분리 — 채번은 earlynumbering에서 키만, 일반 필드는 별도 Determination(on save)으로 이관. 재발행 로직도 같은 구조로 분리해 중복 발행 차단.</p>
-          <span class="k l">배움</span><p>클래식 ABAP 습관대로 한 곳에서 처리하지 말고, RAP 프레임워크의 단계별 역할에 맞춰 설계해야 한다.</p>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- 자격 -->
-  <section id="certs">
-    <div class="wrap">
-      <h2><span class="num">05</span>Certifications</h2>
-      <p class="sub">최신 ABAP 환경(Cloud 개발 모델)까지 준비했습니다</p>
-      <div class="certs">
-        <div class="cert"><b>SAP Certified Associate — Backend Developer, ABAP Cloud</b><span>C_ABAPD_2601</span></div>
-        <div class="cert"><b>SAP Certified Associate — Fiori Application Developer</b><span>C_FIORD</span></div>
-        <div class="cert"><b>SQLD (SQL 개발자)</b><span>한국데이터산업진흥원</span></div>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap">
-    <span>© 2026 홍승욱 · SAP ABAP / Fiori Developer</span>
-    <span>
-      <a href="docs/portfolio.pdf">프로그램 스펙서 PDF</a> ·
-      <a href="https://github.com/HSU-0619/sap-mm-portfolio">Source Code</a>
-    </span>
   </div>
-</footer>
 
+  <main>
+    <section class="section">
+      <div class="container">
+        <div class="section-head"><div><p class="section-kicker">Project Scope</p><h2>내가 담당한 조달 프로세스</h2></div><p class="section-desc">기준정보와 구매 문서를 연결하고, 송장검증 결과가 회계 전표로 이어질 때까지 핵심 구간을 구현했습니다.</p></div>
+        <div class="process-shell">
+          <div class="process-master">
+            <div class="master-card"><strong>자재마스터</strong><span>자재 상태·재고·이미지·메모 통합 관리</span></div>
+            <div class="master-card"><strong>구매정보레코드(PIR)</strong><span>벤더별 계약단가·기간·최소주문수량 관리</span></div>
+          </div>
+          <div class="process-line">
+            <div class="process-step"><div class="no">01</div><strong>Purchase Requisition</strong><span>PR 생성·확정·수정</span><span class="owner">직접 개발</span></div>
+            <div class="process-step"><div class="no">02</div><strong>Purchase Order</strong><span>벤더별 PO 생성</span><span class="owner">직접 개발</span></div>
+            <div class="process-step"><div class="no">03</div><strong>Approval</strong><span>전결/일반결재·재상신</span><span class="owner">직접 개발</span></div>
+            <div class="process-step"><div class="no">04</div><strong>Goods Receipt</strong><span>입고·재고·구매이력</span><span class="owner shared">팀 연계</span></div>
+            <div class="process-step"><div class="no">05</div><strong>Invoice Verification</strong><span>3-Way Match·대량검증</span><span class="owner">직접 개발</span></div>
+            <div class="process-step"><div class="no">06</div><strong>FI AP Document</strong><span>전표 생성·Rollback</span><span class="owner">MM 연계 개발</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="work" style="background:#eef3f8">
+      <div class="container">
+        <div class="section-head"><div><p class="section-kicker">Selected Work</p><h2>대표 ABAP 프로그램</h2></div><p class="section-desc">채용 담당자가 빠르게 확인할 수 있도록 핵심 기능, 실제 화면, 대표 소스를 한 카드에 묶었습니다.</p></div>
+        <div class="work-grid">
+          <article class="work-card">
+            <div class="work-thumb"><img src="docs/previews/01-material-master.webp" alt="자재마스터 관리 프로그램 스펙서 화면" loading="lazy"><button class="thumb-button" data-preview="docs/previews/01-material-master.webp" data-title="자재마스터 관리 프로그램"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 8v6M8 11h6"/></svg></button></div>
+            <div class="work-content"><div class="work-top"><h3>자재마스터 관리</h3><span class="code-id">SAPMZC1MM0001</span></div><p>조회·수정·신규 등록과 재고·이미지·메모를 단일 화면에서 처리하는 Module Pool 프로그램입니다.</p><ul class="feature-list"><li><strong>미사용 전환 전</strong> 진행 중 PR/PO 존재 여부 검증</li><li>변경 행만 선별 저장하고 기존 키 필드는 셀 단위 잠금</li><li>이미지 3단계 폴백과 저장위치별 재고 동시 조회</li></ul><div class="tags"><span class="tag">Module Pool</span><span class="tag">ALV Grid</span><span class="tag">Search Help</span><span class="tag">Data Integrity</span></div><div class="work-links"><a class="btn btn-dark" href="docs/program-spec.pdf#page=1" target="_blank" rel="noopener">상세 스펙</a><a class="btn btn-ghost" href="https://github.com/HSU-0619/sap-mm-portfolio/blob/main/src/sapmzc1mm0001_f01.prog.abap" target="_blank" rel="noopener">대표 소스</a></div></div>
+          </article>
+
+          <article class="work-card">
+            <div class="work-thumb"><img src="docs/previews/02-purchase-request-overview.webp" alt="구매요청 관리 프로그램 스펙서 화면" loading="lazy"><button class="thumb-button" data-preview="docs/previews/02-purchase-request-overview.webp" data-title="구매요청 관리 프로그램"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 8v6M8 11h6"/></svg></button></div>
+            <div class="work-content"><div class="work-top"><h3>구매요청(PR) 관리</h3><span class="code-id">ZRC1MM0004</span></div><p>구매요청의 조회·확정·수정·수동생성을 탭 기반 단일 화면으로 통합했습니다.</p><ul class="feature-list"><li>D-Day와 처리상태를 계산해 <strong>미확정 임박 건 우선 정렬</strong></li><li>확정 시점 자재명·단가·통화를 품목에 고정 저장</li><li>SNRO 채번과 헤더·아이템 동시 INSERT로 번호 충돌 방지</li></ul><div class="tags"><span class="tag">Tabstrip</span><span class="tag">SNRO</span><span class="tag">Dynamic ALV</span><span class="tag">Pricing Snapshot</span></div><div class="work-links"><a class="btn btn-dark" href="docs/program-spec.pdf#page=2" target="_blank" rel="noopener">상세 스펙</a><a class="btn btn-ghost" href="https://github.com/HSU-0619/sap-mm-portfolio/blob/main/src/zrc1mm0004_f01.prog.abap" target="_blank" rel="noopener">대표 소스</a></div></div>
+          </article>
+
+          <article class="work-card">
+            <div class="work-thumb"><img src="docs/previews/04-purchase-order-create.webp" alt="구매오더 생성 프로그램 스펙서 화면" loading="lazy"><button class="thumb-button" data-preview="docs/previews/04-purchase-order-create.webp" data-title="구매오더 생성 및 결재"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 8v6M8 11h6"/></svg></button></div>
+            <div class="work-content"><div class="work-top"><h3>구매오더(PO) · 결재</h3><span class="code-id">ZRC1MM0005</span></div><p>확정 PR을 벤더별로 PO로 전환하고 상신·승인·반려·수정·재상신 흐름을 통합했습니다.</p><ul class="feature-list"><li>벤더별 Tree 구성과 <strong>발주배수·최소주문수량 자동 보정</strong></li><li>총액 기준 전결/일반결재 자동 분기 및 수정 후 재분기</li><li>직급 기반 권한 제어와 Fiori 결재현황 연계</li></ul><div class="tags"><span class="tag">ALV Tree</span><span class="tag">Workflow</span><span class="tag">Authorization</span><span class="tag">Fiori Link</span></div><div class="work-links"><a class="btn btn-dark" href="docs/program-spec.pdf#page=4" target="_blank" rel="noopener">상세 스펙</a><a class="btn btn-ghost" href="https://github.com/HSU-0619/sap-mm-portfolio/blob/main/src/zrc1mm0005_f01.prog.abap" target="_blank" rel="noopener">대표 소스</a></div></div>
+          </article>
+
+          <article class="work-card">
+            <div class="work-thumb"><img src="docs/previews/06-info-record.webp" alt="구매정보레코드 프로그램 스펙서 화면" loading="lazy"><button class="thumb-button" data-preview="docs/previews/06-info-record.webp" data-title="구매정보레코드 관리 프로그램"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 8v6M8 11h6"/></svg></button></div>
+            <div class="work-content"><div class="work-top"><h3>구매정보레코드(PIR)</h3><span class="code-id">SAPMZC1MM0006</span></div><p>자재·벤더별 계약 단가, 기간, 최소주문수량과 실제 발주 이력을 한 화면에서 관리합니다.</p><ul class="feature-list"><li>계약중·만료임박·만료·미계약 상태를 LED와 행색으로 표시</li><li>기간·중복·벤더 계약범위 검증으로 <strong>단가 이력 정합성 확보</strong></li><li>신규 PIR 생성 시 ZAPC 연간계약 PO 자동 생성</li></ul><div class="tags"><span class="tag">Contract Price</span><span class="tag">History</span><span class="tag">Validation</span><span class="tag">Auto PO</span></div><div class="work-links"><a class="btn btn-dark" href="docs/program-spec.pdf#page=6" target="_blank" rel="noopener">상세 스펙</a><a class="btn btn-ghost" href="https://github.com/HSU-0619/sap-mm-portfolio/blob/main/src/sapmzc1mm0096_f01.prog.abap" target="_blank" rel="noopener">대표 소스</a></div></div>
+          </article>
+
+          <article class="work-card" style="grid-column:1/-1">
+            <div class="work-thumb" style="aspect-ratio:2.15/1"><img src="docs/previews/08-invoice-bulk.webp" alt="대량 송장검증 프로그램 스펙서 화면" loading="lazy"><button class="thumb-button" data-preview="docs/previews/08-invoice-bulk.webp" data-title="송장검증 및 FI 연계"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4M11 8v6M8 11h6"/></svg></button></div>
+            <div class="work-content"><div class="work-top"><h3>송장검증(IV) · FI 연계</h3><span class="code-id">ZRC1MM0010</span></div><p>단건 입력과 엑셀 대량 업로드를 지원하고, 정상 송장만 FI AP 전표로 생성하는 검증 프로그램입니다.</p><ul class="feature-list"><li>GR 누적·기청구·잔량·단가 오차율을 계산하는 <strong>3-Way Match</strong></li><li>한 품목이라도 실패하면 해당 송장 전체를 제외하는 송장 단위 Roll-up</li><li>중간 오류 시 전체 ROLLBACK으로 MM 이력과 FI 전표 정합성 유지</li></ul><div class="tags"><span class="tag">Excel Upload</span><span class="tag">3-Way Match</span><span class="tag">Control Break</span><span class="tag">LUW</span><span class="tag">FI Interface</span></div><div class="work-links"><a class="btn btn-dark" href="docs/program-spec.pdf#page=7" target="_blank" rel="noopener">상세 스펙</a><a class="btn btn-ghost" href="https://github.com/HSU-0619/sap-mm-portfolio/blob/main/src/zrc1mm0010_f01.prog.abap" target="_blank" rel="noopener">대표 소스</a></div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="fiori">
+      <div class="container">
+        <div class="section-head"><div><p class="section-kicker">Fiori / UI5</p><h2>백엔드부터 사용자 화면까지</h2></div><p class="section-desc">CDS·RAP·OData로 데이터를 노출하고, SAPUI5 화면에서 승인·추적·분석이 가능하도록 구현했습니다.</p></div>
+        <div class="fiori-grid">
+          <article class="fiori-card"><img src="docs/previews/09-fiori-po-approval.webp" alt="구매오더 결재 승인 Fiori 앱" loading="lazy"><div class="fiori-body"><h3>구매오더 결재 승인</h3><p>KPI 필터, 다중 승인, 반려 사유, 결재이력과 PDF 결재서를 제공하는 승인 앱입니다.</p><a class="fiori-link" href="https://github.com/HSU-0619/sap-mm-portfolio/blob/main/src/zc1mmpoappr.wapa.controller_-approvalview.controller.js" target="_blank" rel="noopener">Controller source →</a></div></article>
+          <article class="fiori-card"><img src="docs/previews/10-fiori-qr.webp" alt="QR 자재 추적 Fiori 앱" loading="lazy"><div class="fiori-body"><h3>QR 자재 추적 관리</h3><p>QR 발행·재발행, 배치 이동이력, 모바일 스캔과 창고 재고 대시보드를 제공합니다.</p><a class="fiori-link" href="https://github.com/HSU-0619/sap-mm-portfolio/blob/main/src/zc1mmqr.wapa.controller_-qrview.controller.js" target="_blank" rel="noopener">Controller source →</a></div></article>
+          <article class="fiori-card"><img src="docs/previews/11-fiori-sd-history.webp" alt="판매오더 변경이력 분석 Fiori 앱" loading="lazy"><div class="fiori-body"><h3>SD 판매오더 변경이력</h3><p>변경 전후 비교, ATP 기반 납기 영향과 변경 고객·납기 위험 분석을 제공합니다.</p><a class="fiori-link" href="https://github.com/HSU-0619/sap-mm-portfolio/blob/main/src/zc1sdso.wapa.controller_-soview.controller.js" target="_blank" rel="noopener">Controller source →</a></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cases" style="background:#eef3f8">
+      <div class="container">
+        <div class="section-head"><div><p class="section-kicker">Technical Decisions</p><h2>문제를 해결한 방식</h2></div><p class="section-desc">단순 기능 구현보다 데이터 유실과 모듈 간 불일치를 막는 구조적 해결에 집중했습니다.</p></div>
+        <div class="case-grid">
+          <article class="case-card"><span class="case-label red">MM ↔ FI</span><h3>부분 전기로 인한 정합성 붕괴</h3><p>FI 함수 내부 COMMIT을 제거하고 호출부에서 단일 <strong>COMMIT / ROLLBACK</strong>을 통제해 MM 이력과 FI 전표가 함께 반영되도록 했습니다.</p></article>
+          <article class="case-card"><span class="case-label blue">ALV EVENT</span><h3>오류 메시지로 프로그램 종료</h3><p>이벤트 컨텍스트에서 TYPE E 대신 표시용 메시지와 오류 플래그를 사용하고, 저장 로직을 차단해 입력 데이터 유실을 방지했습니다.</p></article>
+          <article class="case-card"><span class="case-label green">SAVE PATTERN</span><h3>미관리 필드가 공백으로 덮임</h3><p>DB 원본을 먼저 적재하고 화면에서 관리하는 값만 덮어쓰는 <strong>원본 우선 저장 패턴</strong>으로 필드 유실을 막았습니다.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="deliverables">
+      <div class="container">
+        <div class="section-head"><div><p class="section-kicker">Deliverables</p><h2>검토하기 편한 자료 구성</h2></div><p class="section-desc">사이트에서 핵심을 먼저 보고, 필요한 경우 PDF 스펙서와 실제 GitHub 소스로 더 깊게 확인할 수 있습니다.</p></div>
+        <div class="deliverables">
+          <article class="deliverable-primary"><h3>프로그램 스펙서 · 11 Pages</h3><p>각 프로그램의 목적, 핵심 기능, 화면 구성, 사용 테이블을 한눈에 확인할 수 있도록 정리했습니다. 채용 검토용 기본 문서는 PDF로 바로 열립니다.</p><div class="deliverable-actions"><a class="btn btn-primary" href="docs/program-spec.pdf" target="_blank" rel="noopener">PDF 바로 열기</a><a class="btn btn-secondary" href="https://github.com/HSU-0619/sap-mm-portfolio/tree/main/src" target="_blank" rel="noopener">전체 소스 탐색</a></div></article>
+          <div class="deliverable-side">
+            <article class="resource-card"><div class="resource-icon">&lt;/&gt;</div><div><h4>ABAP · RAP · Fiori Source</h4><p>abapGit 형식으로 추출한 실제 개발 객체</p><a href="https://github.com/HSU-0619/sap-mm-portfolio/tree/main/src" target="_blank" rel="noopener">GitHub에서 열기 →</a></div></article>
+            <article class="resource-card"><div class="resource-icon">P</div><div><h4>PPTX 원본</h4><p>편집 가능한 원본은 보조 자료로만 제공합니다.</p><a href="docs/program-spec-source.pptx">원본 파일 받기 →</a></div></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:20px">
+      <div class="container">
+        <div class="section-head"><div><p class="section-kicker">Certifications</p><h2>직무 기술 기반</h2></div></div>
+        <div class="cert-grid">
+          <article class="cert-card"><div class="cert-type">SAP CERTIFIED</div><h3>Backend Developer - ABAP Cloud</h3><p>C_ABAPD_2601</p></article>
+          <article class="cert-card"><div class="cert-type">SAP CERTIFIED</div><h3>SAP Fiori Application Developer</h3><p>C_FIORD</p></article>
+          <article class="cert-card"><div class="cert-type">DATA</div><h3>SQL 개발자</h3><p>SQLD</p></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner"><span>© 2026 홍승욱 · SAP ABAP / Fiori Developer</span><div class="footer-links"><a href="docs/program-spec.pdf" target="_blank" rel="noopener">Specification</a><a href="https://github.com/HSU-0619/sap-mm-portfolio" target="_blank" rel="noopener">GitHub</a></div></div>
+  </footer>
+
+  <dialog id="previewDialog">
+    <div class="dialog-bar"><strong id="dialogTitle">미리보기</strong><button class="dialog-close" aria-label="닫기">×</button></div>
+    <img class="dialog-img" id="dialogImage" alt="프로그램 스펙서 확대 이미지">
+  </dialog>
+
+  <script>
+    const dialog = document.getElementById('previewDialog');
+    const dialogImage = document.getElementById('dialogImage');
+    const dialogTitle = document.getElementById('dialogTitle');
+    document.querySelectorAll('[data-preview]').forEach(button => {
+      button.addEventListener('click', () => {
+        dialogImage.src = button.dataset.preview;
+        dialogTitle.textContent = button.dataset.title || '프로그램 스펙서';
+        dialog.showModal();
+      });
+    });
+    document.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', event => {
+      const rect = dialog.getBoundingClientRect();
+      const outside = event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom;
+      if (outside) dialog.close();
+    });
+  </script>
 </body>
 </html>
