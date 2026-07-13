@@ -1,0 +1,190 @@
+<mvc:View
+    controllerName="c1.mm.c1mmqr.controller.qrHistView"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    displayBlock="true">
+
+    <Page id="histPage" showHeader="false" enableScrolling="false" class="sapUiNoContentPadding qrMain">
+        <content>
+            <VBox class="qrRoot">
+
+                <Toolbar class="qrTopBar">
+                    <Button icon="sap-icon://nav-back" type="Transparent" press="onNavBack"/>
+                    <Title text="QR 발행이력" level="H4" class="qrAppTitle"/>
+                    <ToolbarSpacer/>
+                </Toolbar>
+
+                <HBox renderType="Bare" class="qrWorkArea">
+
+                    <!-- LEFT FILTER -->
+                    <VBox class="qrSidePanel sapUiSizeCompact">
+
+                        <Toolbar class="qrPanelHeader">
+                            <Title text="조회 조건" level="H5"/>
+                        </Toolbar>
+
+                        <VBox class="qrSideBody">
+
+                            <Label text="QR번호"/>
+                            <Input id="hsfQrNo" placeholder="QR번호" width="100%" submit="onSearch"/>
+
+                            <Label text="자재번호" class="sapUiTinyMarginTop"/>
+                            <Input id="hsfMatnr" placeholder="자재번호" width="100%" submit="onSearch"/>
+
+                            <Label text="구매오더번호" class="sapUiTinyMarginTop"/>
+                            <Input id="hsfEbeln" placeholder="구매오더번호" width="100%" submit="onSearch"/>
+
+                            <Label text="배치번호" class="sapUiTinyMarginTop"/>
+                            <Input id="hsfCharg" placeholder="배치번호" width="100%" submit="onSearch"/>
+
+                            <Label text="발행상태" class="sapUiTinyMarginTop"/>
+                            <Select id="hselStatus" width="100%" selectedKey="ALL">
+                                <core:Item key="ALL" text="전체"/>
+                                <core:Item key="I" text="발행완료"/>
+                            </Select>
+
+                            <Label text="QR 발행일" class="sapUiTinyMarginTop"/>
+                            <DatePicker id="hdpFrom" placeholder="시작일" width="100%" valueFormat="yyyyMMdd" displayFormat="yyyy-MM-dd"/>
+                            <DatePicker id="hdpTo" placeholder="종료일" width="100%" valueFormat="yyyyMMdd" displayFormat="yyyy-MM-dd" class="sapUiTinyMarginTop"/>
+
+                            <Button text="조회" type="Emphasized" icon="sap-icon://search" press="onSearch" width="100%" class="sapUiSmallMarginTop"/>
+                            <Button text="초기화" icon="sap-icon://undo" type="Emphasized" press="onReset" width="100%" class="sapUiTinyMarginTop"/>
+
+                        </VBox>
+                    </VBox>
+
+                    <!-- CENTER LIST -->
+                    <VBox class="qrListPanel">
+
+                        <Toolbar class="qrPanelHeader">
+                            <VBox>
+                                <Title id="hListHeader" text="발행이력 목록" level="H5"/>
+                                <Text id="hListSubHeader" text="QR 발행 완료 건 조회" class="qrPanelSubText"/>
+                            </VBox>
+                            <ToolbarSpacer/>
+                            <Button
+                                id="btnPrintLabel"
+                                text="라벨 인쇄"
+                                type="Emphasized"
+                                icon="sap-icon://print"
+                                press="onPrintLabels"
+                                enabled="false"
+                                class="sapUiTinyMarginEnd"/>
+                            <Button
+                                id="btnDeleteQr"
+                                text="발행취소"
+                                type="Reject"
+                                icon="sap-icon://delete"
+                                press="onDeleteQr"
+                                enabled="false"/>
+                        </Toolbar>
+
+                        <VBox class="qrListBody">
+                            <Table
+                                id="histTable"
+                                mode="MultiSelect"
+                                includeItemInSelection="false"
+                                selectionChange="onHistRowSelect"
+                                noDataText="발행이력이 없습니다."
+                                growing="true"
+                                growingThreshold="30"
+                                class="qrTargetTable">
+
+                                <columns>
+                                    <Column width="16%" hAlign="Center"><Text text="QR번호"/></Column>
+                                    <Column width="13%"><Text text="자재번호"/></Column>
+                                    <Column width="16%"><Text text="자재명"/></Column>
+                                    <Column width="17%" hAlign="Center"><Text text="배치번호"/></Column>
+                                    <Column width="12%" hAlign="Right"><Text text="수량"/></Column>
+                                    <Column width="13%" hAlign="Center"><Text text="QR 발행일"/></Column>
+                                    <Column width="9%" hAlign="Center"><Text text="상태"/></Column>
+                                </columns>
+
+                            </Table>
+                        </VBox>
+
+                    </VBox>
+
+                    <!-- RIGHT DETAIL -->
+                    <VBox class="qrRightArea">
+
+                        <VBox id="hEmptyDetail" class="qrEmptyDetail" alignItems="Center" justifyContent="Center">
+                            <core:Icon src="sap-icon://history" size="3rem" color="#B0B8C1"/>
+                            <Title text="이력을 선택하세요" level="H4" class="sapUiSmallMarginTop"/>
+                            <Text text="목록에서 QR 이력을 선택하면 QR 미리보기와 현재고 정보가 표시됩니다." textAlign="Center" wrapping="true"/>
+                        </VBox>
+
+                        <VBox id="hDetailPanel" visible="false" class="qrDetailPanel">
+
+                            <VBox class="qrDetailHeader">
+                                <HBox justifyContent="SpaceBetween" alignItems="Start">
+                                    <VBox>
+                                        <HBox alignItems="Center">
+                                            <Title id="hdMatnr" text="" level="H2" class="qrDetailNo"/>
+                                            <core:HTML id="hdStatusBadge" content="" preferDOM="false" class="sapUiSmallMarginBegin"/>
+                                        </HBox>
+                                        <Text id="hdMaktx" text="" class="qrDetailSub"/>
+                                    </VBox>
+                                    <VBox alignItems="End">
+                                        <Text id="hdLgort" text="" class="qrDetailMeta"/>
+                                        <Text id="hdErdat" text="" class="qrDetailMeta"/>
+                                        <Text id="hdMenge" text="" class="qrDetailAmt"/>
+                                    </VBox>
+                                </HBox>
+                            </VBox>
+
+                            <VBox class="qrPreviewBox" alignItems="Center">
+                                <core:HTML id="hdQrCanvas" content="&lt;div id='hdQrCodeDiv' class='qrCodeArea'&gt;&lt;/div&gt;" preferDOM="true"/>
+                                <Text id="hdQrNoText" text="" class="qrNoLabel sapUiSmallMarginTop"/>
+                            </VBox>
+
+                            <VBox class="qrInfoSection">
+                                <HBox class="qrInfoRow" alignItems="Center">
+                                    <Label text="구매오더번호" class="qrInfoLabel"/>
+                                    <Text id="hdEbeln" text="" class="qrInfoVal"/>
+                                </HBox>
+                                <HBox class="qrInfoRow" alignItems="Center">
+                                    <Label text="입고문서" class="qrInfoLabel"/>
+                                    <Text id="hdMblnr" text="" class="qrInfoVal"/>
+                                </HBox>
+                                <HBox class="qrInfoRow" alignItems="Center">
+                                    <Label text="배치번호" class="qrInfoLabel"/>
+                                    <Text id="hdCharg" text="" class="qrInfoVal"/>
+                                </HBox>
+                                <HBox class="qrInfoRow" alignItems="Center">
+                                    <Label text="공급업체" class="qrInfoLabel"/>
+                                    <Text id="hdVenName" text="" class="qrInfoVal"/>
+                                </HBox>
+                                <HBox class="qrInfoRow" alignItems="Center">
+                                    <Label text="QR 발행자" class="qrInfoLabel"/>
+                                    <Text id="hdErnam" text="" class="qrInfoVal"/>
+                                </HBox>
+                            </VBox>
+
+                            <VBox class="qrInfoSection">
+                                <Title text="입고 요약" level="H5" class="qrSectionTitle"/>
+                                <HBox class="qrInfoRow" alignItems="Center">
+                                    <Label text="입고 건수" class="qrInfoLabel"/>
+                                    <Text id="hdGrCount" text="-" class="qrInfoVal"/>
+                                </HBox>
+                                <HBox class="qrInfoRow" alignItems="Center">
+                                    <Label text="누적 입고" class="qrInfoLabel"/>
+                                    <Text id="hdGrSum" text="-" class="qrInfoVal"/>
+                                </HBox>
+                                <HBox class="qrInfoRow" alignItems="Center">
+                                    <Label text="입고 기간" class="qrInfoLabel"/>
+                                    <Text id="hdGrPeriod" text="-" class="qrInfoVal"/>
+                                </HBox>
+                            </VBox>
+
+                        </VBox>
+
+                    </VBox>
+
+                </HBox>
+
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

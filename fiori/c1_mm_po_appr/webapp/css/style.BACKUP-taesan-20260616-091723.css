@@ -1,0 +1,1355 @@
+html,
+body,
+.sapUiBody,
+.sapMApp,
+.sapMPage {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.poApprMain,
+.poApprMain .sapMPage,
+.poApprMain .sapMPageContent,
+.poApprMain .sapMPageEnableScrolling {
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+.poApprMain .sapMPageContent,
+.poApprMain .sapMPageEnableScrolling {
+  display: block !important;
+  background: #f5f6f7 !important;
+}
+
+.poRoot {
+  height: 100% !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  background: #f5f6f7 !important;
+}
+
+/* HEADER */
+.poAppHeader {
+  flex: 0 0 3.5rem !important;
+  height: 3.5rem !important;
+  min-height: 3.5rem !important;
+  max-height: 3.5rem !important;
+  padding: 0 1.25rem !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid #d9e0e7 !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+}
+
+.poShellTitle {
+  font-size: 1.15rem !important;
+  line-height: 1.35rem !important;
+  font-weight: 900 !important;
+  color: #0f1f2e !important;
+  margin: 0 !important;
+}
+
+.poAccessBadge {
+  display: inline-block !important;
+  margin-left: 1rem !important;
+  padding: 0.32rem 0.75rem !important;
+  border-radius: 999px !important;
+  background: #edf6ff !important;
+  color: #0a6ed1 !important;
+  border: 1px solid #cde6ff !important;
+  font-size: 0.75rem !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
+}
+
+.poLiveDot {
+  display: inline-block !important;
+  width: 0.45rem !important;
+  height: 0.45rem !important;
+  border-radius: 50% !important;
+  background: #2fb344 !important;
+  margin-right: 0.4rem !important;
+}
+
+.poLiveText {
+  color: #7a8793 !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  margin-right: 0.75rem !important;
+}
+
+/* KPI */
+.poKpiBar {
+  flex: 0 0 4.45rem !important;
+  height: 4.45rem !important;
+  min-height: 4.45rem !important;
+  max-height: 4.45rem !important;
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid #d9e0e7 !important;
+  overflow: hidden !important;
+}
+
+.poKpiBar--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+.poKpiBar--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
+.poKpiCell {
+  height: 4.45rem !important;
+  min-height: 4.45rem !important;
+  max-height: 4.45rem !important;
+  padding: 0.55rem 1rem !important;
+  border-right: 1px solid #e2e8ee !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
+}
+
+.poKpiCell:hover {
+  background: #f8fbff !important;
+}
+
+.poKpiCell--active {
+  background: #fff8ef !important;
+}
+
+.poKpiLabel {
+  display: block !important;
+  font-size: 0.74rem !important;
+  line-height: 0.95rem !important;
+  color: #8492a2 !important;
+  font-weight: 700 !important;
+  margin: 0 !important;
+}
+
+.poKpiValue {
+  display: block !important;
+  font-size: 1.28rem !important;
+  line-height: 1.4rem !important;
+  font-weight: 900 !important;
+  margin: 0.04rem 0 0 0 !important;
+  color: #0f1f2e !important;
+}
+
+.poKpiHint {
+  display: block !important;
+  font-size: 0.7rem !important;
+  line-height: 0.95rem !important;
+  color: #8492a2 !important;
+  margin-top: 0.06rem !important;
+}
+
+.poKpiValue--warn {
+  color: #e9730c !important;
+}
+
+.poKpiValue--blue {
+  color: #0a6ed1 !important;
+}
+
+.poKpiValue--green {
+  color: #188918 !important;
+}
+
+.poKpiValue--red {
+  color: #bb0000 !important;
+}
+
+/* MAIN */
+.poWorkArea {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  background: #f5f6f7 !important;
+}
+
+/* LEFT */
+.poSidePanel {
+  flex: 0 0 240px !important;
+  width: 240px !important;
+  min-width: 240px !important;
+  max-width: 240px !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+  border-right: 1px solid #d9e0e7 !important;
+}
+
+.poPanelHeader {
+  flex: 0 0 3.2rem !important;
+  height: 3.2rem !important;
+  min-height: 3.2rem !important;
+  max-height: 3.2rem !important;
+  padding-left: 1rem !important;
+  padding-right: 0.75rem !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid #e2e8ee !important;
+  overflow: hidden !important;
+}
+
+.poPanelSubText {
+  color: #8492a2 !important;
+  font-size: 0.72rem !important;
+}
+
+.poFilterBody {
+  padding: 0.75rem 1rem !important;
+  border-bottom: 1px solid #e2e8ee !important;
+}
+
+.poFilterBody .sapMLabel {
+  font-size: 0.82rem !important;
+  line-height: 1.1rem !important;
+  font-weight: 700 !important;
+  margin-bottom: 0.15rem !important;
+}
+
+.poFilterLabel--lg.sapMLabel {
+  font-size: 0.9rem !important;
+  font-weight: 800 !important;
+  color: #102a43 !important;
+}
+
+.poResetBtn .sapMBtnContent {
+  font-size: 0.88rem !important;
+  font-weight: 700 !important;
+}
+
+.poFilterBody .sapMInputBase,
+.poFilterBody .sapMSlt {
+  height: 2rem !important;
+}
+
+.poDateWave {
+  margin: 0 0.35rem !important;
+  color: #8a98a8 !important;
+}
+
+.poSideBody {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  background: #ffffff !important;
+}
+
+.poShortcutBox {
+  margin: 0.75rem 1rem 1rem 1rem !important;
+}
+
+.poShortcutItem {
+  padding: 0.1rem 0.3rem !important;
+  border-radius: 0.45rem !important;
+}
+
+.poShortcutItem:hover {
+  background: #f5faff !important;
+}
+
+.poShortcutCnt {
+  font-weight: 900 !important;
+}
+
+.poShortcutCnt--warn {
+  color: #e9730c !important;
+}
+.poShortcutCnt--blue {
+  color: #0a6ed1 !important;
+}
+.poShortcutCnt--green {
+  color: #188918 !important;
+}
+.poShortcutCnt--red {
+  color: #bb0000 !important;
+}
+
+.poGuideBox {
+  margin: 0.75rem 1rem !important;
+  padding: 0.7rem !important;
+  border-radius: 0.65rem !important;
+  background: #edf6ff !important;
+  border: 1px solid #cde6ff !important;
+}
+
+.poGuideTitle {
+  font-weight: 800 !important;
+  color: #0a4f90 !important;
+}
+
+.poGuideText {
+  margin-top: 0.35rem !important;
+  color: #35536f !important;
+  font-size: 0.72rem !important;
+  line-height: 1.1rem !important;
+}
+
+/* CENTER */
+.poListPanel {
+  position: relative !important;
+  flex: 0 0 465px !important;
+  width: 465px !important;
+  min-width: 465px !important;
+  max-width: 465px !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+  border-right: 1px solid #d9e0e7 !important;
+}
+
+.poListPanel .poPanelHeader {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 1 !important;
+}
+
+.poListBody {
+  position: absolute !important;
+  top: 3.2rem !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+  background: #ffffff !important;
+}
+
+.poWorkList {
+  height: auto !important;
+  overflow: visible !important;
+  background: #ffffff !important;
+}
+
+.poListItem {
+  border-bottom: 1px solid #edf0f3 !important;
+  background: #ffffff !important;
+}
+
+.poListItem:hover {
+  background: #f8fbff !important;
+}
+
+.poListItem.sapMLIBSelected {
+  background: #fff8ef !important;
+  border-left: 4px solid #e9730c !important;
+}
+
+.poListItemInner {
+  padding: 0.65rem 1rem !important;
+}
+
+.poListNo {
+  font-size: 1rem !important;
+  line-height: 1.25rem !important;
+  font-weight: 900 !important;
+  color: #102a43 !important;
+}
+
+.poListVendor {
+  margin-top: 0.1rem !important;
+  font-size: 0.78rem !important;
+  line-height: 1.1rem !important;
+  color: #52677a !important;
+  font-weight: 700 !important;
+}
+
+.poListMeta,
+.poListAmount {
+  font-size: 0.72rem !important;
+  line-height: 1rem !important;
+}
+
+.poListMeta {
+  color: #7b8b9a !important;
+}
+
+.poListAmount {
+  color: #102a43 !important;
+  font-weight: 800 !important;
+}
+
+/* RIGHT */
+.poRightArea {
+  position: relative !important;
+  flex: 1 1 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  background: #f5f6f7 !important;
+}
+
+.poEmptyDetail {
+  position: absolute !important;
+  inset: 0 !important;
+  overflow: hidden !important;
+  color: #7b8b9a !important;
+}
+
+.poDetailPanel {
+  position: absolute !important;
+  top: 0.75rem !important;
+  left: 0.75rem !important;
+  right: 0.75rem !important;
+  bottom: 0.75rem !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08) !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+}
+
+.poDetailHeader {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 5.2rem !important;
+  padding: 0.7rem 1.25rem !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid #e2e8ee !important;
+  box-sizing: border-box !important;
+  z-index: 2 !important;
+}
+
+.poDetailNo {
+  color: #102a43 !important;
+  font-weight: 900 !important;
+  font-size: 1rem !important;
+}
+
+.poDetailVendor {
+  color: #52677a !important;
+  font-weight: 700 !important;
+  margin-top: 0.1rem !important;
+}
+
+.poDetailMeta {
+  color: #6b7a8a !important;
+  font-size: 0.75rem !important;
+}
+
+.poDetailAmount {
+  margin-top: 0.1rem !important;
+  color: #0a6ed1 !important;
+  font-size: 1rem !important;
+  font-weight: 900 !important;
+}
+
+/* ICON TAB */
+.poDetailTabs,
+.poDetailTabs.sapMITB {
+  position: absolute !important;
+  top: 5.2rem !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 3.2rem !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+}
+
+.poDetailTabs .sapMITBHead {
+  background: #ffffff !important;
+  border-bottom: 2px solid #e2e8ee !important;
+}
+
+.poDetailTabs .sapMITBContainerContent {
+  position: absolute !important;
+  top: 5.2rem !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  overflow: hidden !important;
+}
+
+.poDetailTabs .sapMITBContent,
+.poDetailTabs .sapMITBContentPadding {
+  height: 100% !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+.poTabContent {
+  height: 100% !important;
+  overflow-y: scroll !important;
+  overflow-x: hidden !important;
+  padding: 1rem 1rem 2rem 1rem !important;
+  box-sizing: border-box !important;
+  background: #ffffff !important;
+}
+
+/* OVERVIEW */
+.poOverviewTop {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.poInfoCard {
+  min-width: 0 !important;
+  padding: 0.75rem !important;
+  border-radius: 0.7rem !important;
+  background: #ffffff !important;
+  border: 1px solid #e0e6ee !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+}
+
+.poCardLabel {
+  color: #8492a2 !important;
+  font-size: 0.68rem !important;
+  font-weight: 700 !important;
+}
+
+.poCardValue {
+  margin-top: 0.1rem !important;
+  color: #102a43 !important;
+  font-size: 0.98rem !important;
+  line-height: 1.2rem !important;
+  font-weight: 900 !important;
+}
+
+.poCardHint {
+  margin-top: 0.05rem !important;
+  color: #8492a2 !important;
+  font-size: 0.66rem !important;
+}
+
+.poOverviewGrid {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.75rem !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.poOverviewBottomGrid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0.75rem !important;
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+.poCardPanel,
+.poReasonPanel,
+.poRejectPanel {
+  margin-bottom: 0 !important;
+  border-radius: 0.7rem !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+  border: 1px solid #e0e6ee !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04) !important;
+}
+
+.poReasonPanel {
+  background: #fff8ef !important;
+  border: 1px solid #f5d7ad !important;
+}
+
+.poReasonPanel .sapMPanelContent {
+  overflow: visible !important;
+}
+
+.poReasonPanel .sapMFlexBox {
+  min-width: 0 !important;
+}
+
+.poReasonPanel .sapMText,
+.poReasonPanel .sapMTitle {
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  word-break: keep-all !important;
+}
+
+.poRejectPanel {
+  background: #fff3f3 !important;
+  border: 1px solid #f3c4c4 !important;
+}
+
+.poRejectText {
+  color: #9f1c1c !important;
+  font-weight: 800 !important;
+}
+
+.poPdfMini,
+.poPdfPreview {
+  min-height: 9rem !important;
+  padding: 1rem !important;
+  background: #ffffff !important;
+}
+
+/* 승인완료/반려 항목: 체크박스 숨김 + 선택 불가 */
+.poNoSelect .sapMLIBSelectM,
+.poNoSelect .sapMLIBSelectS,
+.poNoSelect .sapMCb {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* KPI 카드 합계 금액 (오른쪽 아래 정렬) */
+.poKpiHint--amt {
+  color: #0a4f90 !important;
+  font-weight: 800 !important;
+  text-align: right !important;
+  width: 100% !important;
+  margin-top: auto !important;
+}
+
+/* 기본정보 행 (라벨-값 가로 배치) */
+.poInfoRows {
+  padding: 0.5rem 0.85rem !important;
+}
+
+.poInfoRow {
+  padding: 0.28rem 0 !important;
+  border-bottom: 1px solid #f0f2f5 !important;
+}
+
+.poInfoRow:last-child {
+  border-bottom: none !important;
+}
+
+.poInfoLabel {
+  width: 7rem !important;
+  min-width: 7rem !important;
+  flex: 0 0 7rem !important;
+  margin-right: 0.75rem !important;
+  color: #8492a2 !important;
+  font-weight: 700 !important;
+}
+
+.poInfoLabel .sapMLabelInner,
+.poInfoLabel .sapMText {
+  width: 100% !important;
+}
+
+.poInfoVal {
+  color: #1f2c39 !important;
+  font-weight: 600 !important;
+}
+
+/* PDF 탭 미리보기 */
+.poPdfTab {
+  background: #e9edf1 !important;
+}
+
+.poPdfToolbar {
+  background: #ffffff !important;
+  border-radius: 0.5rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.poPdfPreviewBox {
+  background: #e9edf1;
+  padding: 0.75rem;
+}
+
+.poPdfPreviewBox .doc {
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.14) !important;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.poPdfEmpty {
+  text-align: center;
+  color: #8a98a8;
+  padding: 3rem 1rem;
+}
+
+.poTableScroll {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  box-sizing: border-box !important;
+}
+
+.poTableScroll .sapMScrollContScroll,
+.poTableScroll .sapMScrollCont {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+}
+
+/* 핵심: 짧으면 100%, 길면 데이터 길이만큼 확장 */
+.poAutoWidthTable {
+  width: max-content !important;
+  min-width: 100% !important;
+  max-width: none !important;
+  table-layout: auto !important;
+  background: #ffffff !important;
+  overflow: visible !important;
+}
+
+/* sap.m.Table 내부 실제 table */
+.poAutoWidthTable .sapMListTblCnt {
+  width: max-content !important;
+  min-width: 100% !important;
+  max-width: none !important;
+  overflow: visible !important;
+}
+
+.poAutoWidthTable .sapMListTbl {
+  width: max-content !important;
+  min-width: 100% !important;
+  max-width: none !important;
+  table-layout: auto !important;
+}
+
+/* 헤더/셀 공통 */
+.poAutoWidthTable .sapMListTblHeader > th,
+.poAutoWidthTable .sapMListTblRow > td {
+  padding: 0.45rem 0.65rem !important;
+  height: 2.65rem !important;
+  min-height: 2.65rem !important;
+  box-sizing: border-box !important;
+  vertical-align: middle !important;
+  overflow: visible !important;
+  white-space: nowrap !important;
+}
+
+/* 헤더 텍스트 */
+.poAutoWidthTable .sapMListTblHeaderCell .sapMText {
+  display: block !important;
+  width: auto !important;
+  min-width: max-content !important;
+  max-width: none !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  word-break: keep-all !important;
+  font-size: 0.8rem !important;
+  line-height: 1.05rem !important;
+  font-weight: 900 !important;
+  color: #102a43 !important;
+}
+
+/* 일반 텍스트 - 줄바꿈/말줄임 제거 */
+.poAutoWidthTable .sapMText,
+.poNoWrapCell {
+  display: block !important;
+  width: auto !important;
+  min-width: max-content !important;
+  max-width: none !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  font-size: 0.8rem !important;
+  line-height: 1.05rem !important;
+  color: #001f3f !important;
+}
+
+/* 품명 */
+.poNameCell {
+  width: auto !important;
+  min-width: max-content !important;
+  max-width: none !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  text-overflow: clip !important;
+}
+
+/* 수량 */
+.poAutoWidthTable .sapMObjectNumber,
+.poQtyCell {
+  display: block !important;
+  width: auto !important;
+  min-width: max-content !important;
+  max-width: none !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  text-align: right !important;
+  font-size: 0.8rem !important;
+  line-height: 1.05rem !important;
+}
+
+.poAutoWidthTable .sapMObjectNumberText,
+.poAutoWidthTable .sapMObjectNumberUnit {
+  white-space: nowrap !important;
+  font-size: 0.8rem !important;
+  line-height: 1.05rem !important;
+}
+
+/* 단가 */
+.poPriceCell {
+  width: auto !important;
+  min-width: max-content !important;
+  max-width: none !important;
+  white-space: nowrap !important;
+  text-align: right !important;
+  font-weight: 800 !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* 가운데 정렬 */
+.poCenterCell {
+  text-align: center !important;
+}
+
+/* 행 높이 */
+.poAutoWidthTable .sapMLIB {
+  height: 2.7rem !important;
+  min-height: 2.7rem !important;
+}
+
+/* 스크롤바 */
+.poTableScroll::-webkit-scrollbar {
+  height: 0.5rem !important;
+}
+
+.poTableScroll::-webkit-scrollbar-thumb {
+  background: #8aa0b6 !important;
+  border-radius: 999px !important;
+}
+
+.poTableScroll::-webkit-scrollbar-track {
+  background: #edf1f5 !important;
+}
+
+/* ITEM / MRP TABLE - DATA NOT CUT */
+.poDataTable,
+.poItemScrollTable,
+.poMrpScrollTable {
+  background: #ffffff !important;
+  width: auto !important;
+  min-width: max-content !important;
+  max-width: none !important;
+  table-layout: auto !important;
+  overflow: visible !important;
+}
+
+.poDataTable .sapMListTblCnt,
+.poItemScrollTable .sapMListTblCnt,
+.poMrpScrollTable .sapMListTblCnt {
+  width: auto !important;
+  min-width: max-content !important;
+  max-width: none !important;
+  overflow: visible !important;
+}
+
+.poDataTable .sapMListTbl,
+.poItemScrollTable .sapMListTbl,
+.poMrpScrollTable .sapMListTbl {
+  width: auto !important;
+  min-width: 100% !important;
+  max-width: none !important;
+  table-layout: auto !important;
+}
+
+.poDataTable .sapMListTblHeader > th,
+.poDataTable .sapMListTblRow > td,
+.poItemScrollTable .sapMListTblHeader > th,
+.poItemScrollTable .sapMListTblRow > td,
+.poMrpScrollTable .sapMListTblHeader > th,
+.poMrpScrollTable .sapMListTblRow > td {
+  padding: 0.45rem 0.65rem !important;
+  height: 2.65rem !important;
+  min-height: 2.65rem !important;
+  box-sizing: border-box !important;
+  vertical-align: middle !important;
+  overflow: visible !important;
+  white-space: nowrap !important;
+}
+
+.poDataTable .sapMListTblHeaderCell .sapMText,
+.poItemScrollTable .sapMListTblHeaderCell .sapMText,
+.poMrpScrollTable .sapMListTblHeaderCell .sapMText {
+  display: block !important;
+  width: auto !important;
+  min-width: max-content !important;
+  max-width: none !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  word-break: keep-all !important;
+  font-size: 0.8rem !important;
+  line-height: 1.05rem !important;
+  font-weight: 900 !important;
+  color: #102a43 !important;
+}
+
+.poNoWrapCell,
+.poDataTable .sapMText,
+.poItemScrollTable .sapMText,
+.poMrpScrollTable .sapMText {
+  display: block !important;
+  width: auto !important;
+  min-width: max-content !important;
+  max-width: none !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  font-size: 0.8rem !important;
+  line-height: 1.05rem !important;
+  color: #001f3f !important;
+}
+
+.poNameCell {
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  text-overflow: clip !important;
+}
+
+.poQtyCell,
+.poDataTable .sapMObjectNumber,
+.poItemScrollTable .sapMObjectNumber,
+.poMrpScrollTable .sapMObjectNumber {
+  display: block !important;
+  width: auto !important;
+  min-width: max-content !important;
+  max-width: none !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  text-align: right !important;
+  font-size: 0.8rem !important;
+  line-height: 1.05rem !important;
+}
+
+.poDataTable .sapMObjectNumberText,
+.poDataTable .sapMObjectNumberUnit,
+.poItemScrollTable .sapMObjectNumberText,
+.poItemScrollTable .sapMObjectNumberUnit,
+.poMrpScrollTable .sapMObjectNumberText,
+.poMrpScrollTable .sapMObjectNumberUnit {
+  white-space: nowrap !important;
+  font-size: 0.8rem !important;
+  line-height: 1.05rem !important;
+}
+
+.poPriceCell {
+  min-width: max-content !important;
+  white-space: nowrap !important;
+  text-align: right !important;
+  font-weight: 800 !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+.poCenterCell {
+  text-align: center !important;
+}
+
+.poDataTable .sapMLIB,
+.poItemScrollTable .sapMLIB,
+.poMrpScrollTable .sapMLIB {
+  height: 2.7rem !important;
+  min-height: 2.7rem !important;
+}
+
+.poTableScroll::-webkit-scrollbar {
+  height: 0.5rem !important;
+}
+
+.poTableScroll::-webkit-scrollbar-thumb {
+  background: #8aa0b6 !important;
+  border-radius: 999px !important;
+}
+
+.poTableScroll::-webkit-scrollbar-track {
+  background: #edf1f5 !important;
+}
+
+/* ACTION BAR */
+.poActionBar {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 3.2rem !important;
+  z-index: 10 !important;
+  background: #ffffff !important;
+  border-top: 1px solid #e2e8ee !important;
+  border-radius: 0 0 0.75rem 0.75rem !important;
+  box-sizing: border-box !important;
+}
+
+.poActionHint {
+  display: none !important;
+}
+
+.poActionHint {
+  color: #607083 !important;
+  font-size: 0.76rem !important;
+}
+
+/* BADGES */
+.poBadge {
+  display: inline-block !important;
+  padding: 0.2rem 0.55rem !important;
+  border-radius: 999px !important;
+  font-size: 0.7rem !important;
+  font-weight: 900 !important;
+  border: 1px solid transparent !important;
+  white-space: nowrap !important;
+}
+
+.poBadge--wait {
+  background: #fff3cd !important;
+  color: #856404 !important;
+  border-color: #ffe6a1 !important;
+}
+
+.poBadge--fast {
+  background: #e7f1ff !important;
+  color: #084298 !important;
+  border-color: #cfe2ff !important;
+}
+
+.poBadge--progress {
+  background: #fff0dc !important;
+  color: #8a4000 !important;
+  border-color: #ffd8a8 !important;
+}
+
+.poBadge--approved {
+  background: #d1e7dd !important;
+  color: #0a3622 !important;
+  border-color: #badbcc !important;
+}
+
+.poBadge--rejected {
+  background: #f8d7da !important;
+  color: #842029 !important;
+  border-color: #f1aeb5 !important;
+}
+
+/* STAMP */
+.poStampBox {
+  gap: 0.65rem !important;
+  align-items: center !important;
+  overflow-x: auto !important;
+  padding: 0.55rem 0.2rem !important;
+}
+
+.poStampWrap {
+  padding: 0.15rem !important;
+}
+
+.poStamp {
+  position: relative !important;
+  width: 4.4rem !important;
+  height: 4.4rem !important;
+  background: transparent !important;
+  transform: rotate(-4deg) !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+/* 인장 틀(SVG) */
+.poStampFrame {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* 도장 이미지 (사번.png) — 있으면 표시, 없으면 onerror로 숨김 */
+.poStampImg {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  z-index: 2 !important;
+}
+
+/* 이미지가 로드되면 SVG 틀·글자는 숨김 */
+.poStamp--hasImg .poStampFrame,
+.poStamp--hasImg .poStampSeal {
+  display: none !important;
+}
+
+/* 세로 각인 이름 */
+.poStampSeal {
+  position: relative !important;
+  z-index: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.02rem !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  letter-spacing: -0.5px !important;
+}
+
+.poStampSeal span {
+  font-size: 0.92rem !important;
+  font-family: "Batang", "Gungsuh", "Malgun Gothic", serif !important;
+}
+
+/* 상태별 인주색 (currentColor → SVG 틀 + 글자에 동시 적용) */
+.poStamp--approved { color: #b3261e !important; }   /* 승인: 인주색(붉은) */
+.poStamp--rejected { color: #7a1f1a !important; }   /* 반려: 짙은 적 */
+.poStamp--pending  { color: #1a3a6b !important; }   /* 상신/재상신: 남색 */
+
+.poStampRole {
+  margin-top: 0.25rem !important;
+  font-size: 0.7rem !important;
+  color: #7b8b9a !important;
+  font-weight: 700 !important;
+}
+
+.poStampName {
+  font-size: 0.73rem !important;
+  color: #102a43 !important;
+  font-weight: 800 !important;
+}
+
+.poStampArrow {
+  color: #a8b3bd !important;
+  font-size: 1.4rem !important;
+  align-self: center !important;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1550px) {
+  .poSidePanel {
+    flex-basis: 220px !important;
+    width: 220px !important;
+    min-width: 220px !important;
+    max-width: 220px !important;
+  }
+
+  .poListPanel {
+    flex-basis: 440px !important;
+    width: 440px !important;
+    min-width: 440px !important;
+    max-width: 440px !important;
+  }
+
+  .poOverviewBottomGrid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 1350px) {
+  .poSidePanel {
+    flex-basis: 200px !important;
+    width: 200px !important;
+    min-width: 200px !important;
+    max-width: 200px !important;
+  }
+
+  .poListPanel {
+    flex-basis: 400px !important;
+    width: 400px !important;
+    min-width: 400px !important;
+    max-width: 400px !important;
+  }
+
+  .poOverviewTop {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* PO 번호와 상태 배지 간격 */
+.poDetailNo {
+  margin-right: 0.55rem !important;
+}
+
+/* dHdrBadge 왼쪽 여백 */
+[id$="dHdrBadge"] {
+  margin-left: 0.35rem !important;
+}
+
+/* 배지 자체 왼쪽 여백 */
+.poBadge {
+  margin-left: 0.35rem !important;
+}
+
+/* ============================================================
+   TAESAN 테마 하모나이즈 (배경 #0D1320 / 표면 #1A2238 / 골드 #E8B547)
+   하드코딩된 라이트 색을 다크 표면 + 밝은 글자로 통일
+   ============================================================ */
+
+/* 큰 영역 배경 */
+.poApprMain .sapMPageContent,
+.poRoot,
+.poWorkArea,
+.poRightArea,
+.poEmptyDetail,
+.poDetailPanel {
+  background: #0D1320 !important;
+}
+
+/* 패널/표면 → 네이비 */
+.poSidePanel,
+.poListPanel,
+.poListBody,
+.poSideBody,
+.poFilterBody,
+.poWorkList,
+.poKpiBar,
+.poKpiCell,
+.poDetailHeader,
+.poTabContent,
+.poListItem,
+.poInfoRows {
+  background: #1A2238 !important;
+  border-color: #2A3650 !important;
+}
+
+.poSidePanel { border-right: 1px solid #2A3650 !important; }
+.poListPanel { border-right: 1px solid #2A3650 !important; }
+.poKpiBar { border-bottom: 1px solid #2A3650 !important; }
+.poKpiCell { border-right: 1px solid #2A3650 !important; }
+.poListItem { border-bottom: 1px solid #2A3650 !important; }
+
+/* 패널 헤더(조회 조건 / 결재 리스트) */
+.poPanelHeader {
+  background: #131A2C !important;
+  border-bottom: 2px solid #E8B547 !important;
+}
+.poPanelHeader .sapMTitle,
+.poPanelHeader .sapMText { color: #FAFAFA !important; }
+.poPanelSubText { color: #8B96A5 !important; }
+
+/* 좌측 필터 라벨/정보 라벨 → 밝게 (안 보이던 문제 해결) */
+.poFilterBody .sapMLabel,
+.poFilterLabel--lg.sapMLabel,
+.poInfoLabel { color: #C8D2E4 !important; }
+.poInfoVal { color: #FAFAFA !important; }
+
+/* KPI 카드 */
+.poKpiLabel { color: #8B96A5 !important; }
+.poKpiHint,
+.poKpiHint--amt { color: #91C8F6 !important; }
+.poKpiValue { color: #FAFAFA !important; }
+.poKpiValue--warn { color: #F2A742 !important; }
+.poKpiValue--green { color: #6FC79B !important; }
+.poKpiValue--red { color: #F26B6B !important; }
+.poKpiCell--active {
+  background: #2D261A !important;
+  box-shadow: inset 0 -3px 0 #E8B547 !important;
+}
+
+/* 리스트 항목 */
+.poListNo { color: #FAFAFA !important; }
+.poListVendor { color: #C8D2E4 !important; }
+.poListMeta { color: #8B96A5 !important; }
+.poListAmount { color: #E8B547 !important; }
+.poListItem:hover { background: #252E48 !important; }
+.poListItem.sapMLIBSelected {
+  background: #2D261A !important;
+  border-left: 4px solid #E8B547 !important;
+}
+
+/* 상세 헤더 */
+.poDetailHeader { border-bottom: 2px solid #E8B547 !important; }
+.poDetailNo { color: #FAFAFA !important; }
+.poDetailVendor { color: #C8D2E4 !important; }
+.poDetailMeta { color: #8B96A5 !important; }
+.poDetailAmount { color: #E8B547 !important; }
+
+/* 개요 카드/정보표 */
+.poCardLabel { color: #8B96A5 !important; }
+.poCardValue { color: #FAFAFA !important; }
+.poCardHint { color: #8B96A5 !important; }
+
+/* 구매사유 박스 */
+.poReasonPanel {
+  background: #2D261A !important;
+  border: 1px solid #5a4a22 !important;
+}
+.poReasonPanel .sapMTitle,
+.poReasonPanel .sapMText { color: #F3E3C0 !important; }
+
+/* 반려 박스 */
+.poRejectPanel {
+  background: #1A0F0F !important;
+  border: 1px solid #5a2a2a !important;
+}
+.poRejectText { color: #F26B6B !important; }
+
+/* 안내 박스 */
+.poGuideBox {
+  background: #0F1828 !important;
+  border: 1px solid #2A3650 !important;
+}
+.poGuideTitle { color: #91C8F6 !important; }
+.poGuideText { color: #C8D2E4 !important; }
+
+/* 액션바 */
+.poActionBar {
+  background: #131A2C !important;
+  border-top: 2px solid #E8B547 !important;
+}
+.poActionHint { color: #8B96A5 !important; }
+
+/* 품목/자재부족 테이블 글자 밝게 */
+.poMrpScrollTable .sapMText,
+.poDataTable .sapMText,
+.poMrpScrollTable .sapMLabel,
+.poDataTable .sapMLabel { color: #E6ECF5 !important; }
+
+/* PDF 미리보기 종이는 흰색 유지(가독성), 주변만 어둡게 */
+.poPdfTab,
+.poPdfPreviewBox { background: #0D1320 !important; }
+
+/* 상세 탭 라벨(개요/품목/결재이력/PDF) — 다크에서 안 보이던 글자 */
+.poDetailTabs .sapMITBHead { background: #131A2C !important; }
+.poDetailTabs .sapMITBText,
+.poDetailTabs .sapMITBFilterText,
+.poDetailTabs .sapMITBCount {
+  color: #C8D2E4 !important;
+}
+.poDetailTabs .sapMITBSelected .sapMITBText,
+.poDetailTabs .sapMITBSelected .sapMITBFilterText {
+  color: #E8B547 !important;
+}
+.poDetailTabs .sapMITBFilter,
+.poDetailTabs .sapMITBSelected .sapMITBFilter {
+  color: #E8B547 !important;
+}
+
+/* 도장 아래 역할/이름 글자 */
+.poStampRole { color: #8B96A5 !important; }
+.poStampName { color: #FAFAFA !important; }
+.poStampArrow { color: #5a6890 !important; }
+
+/* 결재의견 리스트(FeedListItem) 글자 */
+.poHistoryList .sapMFeedListItemText,
+.poHistoryList .sapMFeedListItemTextName,
+.poHistoryList .sapMFeedListItemTimestamp {
+  color: #C8D2E4 !important;
+}
+
+/* 빈 상세 안내 글자 */
+.poEmptyDetail .sapMText,
+.poEmptyDetail .sapMTitle { color: #8B96A5 !important; }
+
+/* 리스트 헤더 건수 텍스트 */
+.poListSubHeader,
+.poListPanel .sapMText { color: #C8D2E4 !important; }
+
